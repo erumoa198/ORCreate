@@ -1245,6 +1245,9 @@ body > * {
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .visual-item-ultra:hover {
@@ -4025,6 +4028,27 @@ body > * {
     .visual-small {
         grid-column: 1;
         grid-row: auto;
+    }
+
+    .visual-content {
+        padding: 1rem;
+    }
+
+    .visual-content h3 {
+        font-size: 0.85rem;
+        line-height: 1.2;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+    }
+
+    .visual-content p {
+        font-size: 0.7rem;
+    }
+
+    .visual-tag {
+        font-size: 0.625rem;
+        padding: 0.25rem 0.5rem;
     }
 
     .hero-scroll-indicator {
