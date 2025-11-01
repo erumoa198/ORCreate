@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | OR Create</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><img src="image/logo.png" alt="OR Create"></div>
+                <span>OR Create</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="works.html">Works</a>
+                <a href="team.html">Team</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">About</a>
+                <a href="contact.html" class="active nav-cta">Contact</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </header>
+
+    <!-- パララックス背景 -->
+    <div class="parallax-bg">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
+    </div>
+
+    <!-- ページヘッダー -->
+    <section class="page-header">
+        <div class="container">
+            <h1>お問い合わせ</h1>
+            <p>楽曲制作、映像制作、美容サポートなど、お気軽にご相談ください</p>
+        </div>
+    </section>
+
+    <!-- コンタクトフォーム - センター配置 -->
+    <section class="contact-section-modern">
+        <div class="container-narrow">
+            <div class="contact-form-modern">
+                <form id="contactForm">
+                    <div class="form-group-modern">
+                        <label for="name">お名前 <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="山田太郎">
+                    </div>
+                    <div class="form-group-modern">
+                        <label for="email">メールアドレス <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="example@email.com">
+                    </div>
+                    <div class="form-group-modern">
+                        <label for="service">ご希望のサービス</label>
+                        <select id="service" name="service">
+                            <option value="">選択してください</option>
+                            <option value="music">Music - 楽曲制作・編曲</option>
+                            <option value="creative">Creative - 映像・写真・Web制作</option>
+                            <option value="beauty">Beauty - 美容サポート</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+                    <div class="form-group-modern">
+                        <label for="message">お問い合わせ内容 <span class="required">*</span></label>
+                        <textarea id="message" name="message" required placeholder="具体的なご要望や質問内容をご記入ください" rows="8"></textarea>
+                    </div>
+                    <button type="submit" class="btn-modern btn-primary-modern btn-large btn-full">
+                        送信する
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- メール情報 -->
+            <div class="contact-email-box">
+                <div class="email-box-header">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <h3>直接メールでのお問い合わせ</h3>
+                </div>
+                <p>フォームが使いにくい場合は、直接メールでお問い合わせください</p>
+                <a href="mailto:idea.crankup@gmail.com" class="email-link">
+                    idea.crankup@gmail.com
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <h3>OR Create</h3>
+                <p>Creative / Music / Beauty の3軸で、包括的なクリエイティブサービスを提供するチームです。</p>
+            </div>
+            <div>
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="works.html">Works</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html#creative">Creative</a></li>
+                    <li><a href="services.html#music">Music</a></li>
+                    <li><a href="services.html#beauty">Beauty</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="contact.html">お問い合わせ</a></li>
+                    <li><a href="mailto:idea.crankup@gmail.com">Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 OR Create. All rights reserved.</p></div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // フォーム送信処理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('お問い合わせありがとうございます。\n後ほど担当者よりご連絡させていただきます。');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

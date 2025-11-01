@@ -1,819 +1,533 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OR Create | One Page LP</title>
-  <meta name="description" content="OR Create｜Creative / Music / Beauty の3軸で、映像・楽曲・美容提携をワンストップで。" />
-
-  <!-- Tailwind（CDN開発用） -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors:{ base:'#0A0A0A', text:'#F5F5F5', brand:'#A6FF00', card:'#141414' },
-          fontFamily:{ sans:['system-ui','-apple-system','Segoe UI','Noto Sans JP','Hiragino Kaku Gothic ProN','Meiryo','sans-serif'] },
-          boxShadow:{ soft:'0 8px 24px rgba(0,0,0,.28)' }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    html{scroll-behavior:smooth}
-    body{background:#0A0A0A;color:#F5F5F5}
-    .container{max-width:1200px}
-    .nav-blur{backdrop-filter:blur(10px);background:rgba(10,10,10,.75)}
-    section[id]{scroll-margin-top:92px}
-    .no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
-
-    /* ===== Progress bar（上部の緑ゲージ） ===== */
-    #progress-bar{position:fixed;top:0;left:0;height:3px;width:100vw;background:#A6FF00;transform:scaleX(0);transform-origin:left center;z-index:100500}
-
-    /* ===== Parallax squares ===== */
-    .parallax{position:relative}
-    .px-layer{position:absolute;inset:0;pointer-events:none;z-index:-1}
-    [data-px]{will-change:transform}
-    .floaty{position:absolute;border-radius:10px;
-      background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.08));
-      border:1px solid rgba(255,255,255,.18);box-shadow:0 6px 20px rgba(0,0,0,.35)}
-    @keyframes drift{0%{transform:translate3d(var(--dx,0),var(--dy,0),0)}50%{transform:translate3d(calc(var(--dx)*-1),calc(var(--dy)*-1),0)}100%{transform:translate3d(var(--dx,0),var(--dy,0),0)}}
-    .drift{animation:drift var(--t,22s) ease-in-out infinite}
-
-    /* ===== Reveal ===== */
-    .reveal{opacity:0;transform:translateY(16px) scale(.98);transition:opacity .5s ease,transform .5s ease}
-    .reveal.inview{opacity:1;transform:translateY(0) scale(1)}
-
-    /* ===== Accent ===== */
-    .accent-anim{display:inline-block;padding:0 .35rem;border-radius:.55rem;
-      background-image:linear-gradient(#A6FF00,#A6FF00);background-repeat:no-repeat;background-size:0% 100%;
-      transition:background-size .9s cubic-bezier(.22,1,.36,1),color .4s}
-    .accent-anim.inview{background-size:100% 100%;color:#000}
-
-    /* ===== Chips ===== */
-    .chip{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-      padding:.6rem 1rem;border-radius:9999px;border:1px solid rgba(255,255,255,.28);
-      color:#fff;background:rgba(0,0,0,.2);transition:.18s ease}
-    .chip:hover,.chip:focus{background:#A6FF00;color:#000;border-color:transparent;transform:translateY(-1px)}
-    .chip:active{transform:translateY(0)}
-
-    /* ===== Hero image ===== */
-    .mask-soft {
-      -webkit-mask-image: radial-gradient(125% 125% at 50% 50%, #000 62%, transparent 100%);
-              mask-image: radial-gradient(125% 125% at 50% 50%, #000 62%, transparent 100%);
-      -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
-    }
-    .hero-frame { border-radius: 22px; border: 1px solid rgba(255,255,255,.16); overflow: hidden; box-shadow: 0 18px 48px rgba(0,0,0,.45); }
-    .hero-media { width:100%; height: clamp(280px, 46vw, 560px); object-fit: cover; }
-    @keyframes heroIn { from { opacity:0; transform:scale(1.03) translateY(6px); } to { opacity:1; transform:scale(1) translateY(0); } }
-
-    /* ===== Tiles + portal panels（Service / OR Createとは） ===== */
-    .tile{position:relative}
-    .tile .panel{
-      position:absolute;left:0;right:0;top:calc(100% + 8px);
-      background:#111 !important; /* 不透過で読みやすく */
-      border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:16px 16px;
-      transform-origin:top;transform:scaleY(.95);opacity:0;pointer-events:none;
-      transition:transform .18s ease,opacity .18s ease;box-shadow:0 22px 60px rgba(0,0,0,.65)
-    }
-    /* モバイル：その場展開で重なり事故ゼロ */
-    .tile .panel.inplace{
-      position:relative !important; inset:auto !important; top:auto !important; left:auto !important; right:auto !important;
-      transform:none !important; opacity:1 !important; pointer-events:auto !important; z-index:30; margin-top:10px;
-    }
-    .tile .panel p{font-size:16px;line-height:1.85;letter-spacing:.01em;color:rgba(255,255,255,.95)}
-    .tile.open .panel{transform:scaleY(1);opacity:1;pointer-events:auto}
-    #overlay-root{position:fixed;inset:0;z-index:99999;pointer-events:none}
-    #overlay-root .portal-panel{position:fixed;pointer-events:auto;z-index:100000;transform:scaleY(1)!important;opacity:1!important;background:#111 !important;}
-    #overlay-scrim{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.55);backdrop-filter:blur(1.5px);opacity:0;pointer-events:none;transition:opacity .18s}
-    #overlay-scrim.on{opacity:1;pointer-events:auto}
-
-    /* OR logos badge */
-    .org-badge{
-      display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;
-      border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.04)
-    }
-    .org-badge.light{background:#f1f3f5;border-color:rgba(0,0,0,.08)} /* Navi用（黒ロゴを見やすく） */
-    .org-badge .logo{height:26px;width:auto;display:block}
-
-    /* ===== Works slider ===== */
-    #scroll{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-    #track{display:flex;gap:24px;padding:8px 6px}
-    .work-card{flex:0 0 auto;scroll-snap-align:center;transition:transform .25s,opacity .25s}
-    .card-media{position:relative;background:rgba(255,255,255,.08)}
-    /* PCでも正方形でトリミングしない */
-    .work-media{aspect-ratio:1/1}
-    .work-caption{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;
-      background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.65) 60%,rgba(0,0,0,.9) 100%)}
-    .open-link{
-      position:absolute;right:10px;top:10px;z-index:2;
-      background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.35);
-      width:36px;height:36px;border-radius:9999px;display:grid;place-items:center
-    }
-    .open-link:hover{background:rgba(0,0,0,.8)}
-    @media (max-width:767px){.work-card{width:78vw}}
-    @media (min-width:768px){.work-card{width:360px}}
-
-    /* ===== Contact ===== */
-    #contact{position:relative;z-index:1;isolation:isolate}
-    #contact .form-embed{height:56vh;min-height:420px;max-height:78vh}
-    @media (max-width:767px){ #contact .form-embed{height:66vh;min-height:500px} }
-
-    /* ===== CTA（左テキスト右ボタン／ボタングロー） ===== */
-    .cta-wrap{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-    @media (max-width:767px){.cta-wrap{grid-template-columns:1fr}}
-    .btn-glow{position:relative;overflow:hidden;background:#A6FF00;color:#000;border-radius:14px;font-weight:700;
-      padding:.95rem 1.4rem;border:1px solid transparent;transition:transform .18s ease,filter .18s ease}
-    .btn-glow::after{content:"";position:absolute;inset:-40%;
-      background:conic-gradient(from 180deg at 50% 50%,#fff 0,#fff0 25%,#fff 50%,#fff0 75%,#fff 100%);
-      opacity:0;transform:translateX(-60%);transition:opacity .25s ease, transform .7s ease}
-    .btn-glow:hover{transform:translateY(-2px)}
-    .btn-glow:hover::after{opacity:.35;transform:translateX(0)}
-    .btn-glow:active{transform:translateY(0)}
-
-    /* ===== 常時表示の TOPへ ===== */
-    #toTop{position:fixed;right:16px;bottom:16px;z-index:10040;width:48px;height:48px;border-radius:9999px;
-      display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);
-      color:#fff;opacity:.6;transition:.18s}
-    #toTop:hover{opacity:1;background:rgba(255,255,255,.16)}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OR Create | Creative / Music / Beauty</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="font-sans antialiased">
-
-  <!-- progress bar -->
-  <div id="progress-bar"></div>
-
-  <!-- Header -->
-  <header class="sticky top-0 z-[10000] nav-blur border-b border-white/20">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#top" class="flex items-center gap-3">
-        <!-- 白背景に黒ロゴを載せる -->
-        <div class="h-9 w-9 rounded bg-white grid place-items-center">
-          <img src="image/logo.png" alt="OR Create" class="h-6 w-auto object-contain">
-        </div>
-        <span class="text-white font-semibold">OR Create</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="#concept" class="text-white/80 hover:text-white font-semibold">Concept</a>
-        <a href="#services" class="text-white/80 hover:text-white font-semibold">Service</a>
-        <a href="#works" class="text-white/80 hover:text-white font-semibold">Works</a>
-        <a href="#about" class="text-white/80 hover:text-white font-semibold">OR Createとは</a>
-        <a href="#contact" class="text-white/80 hover:text-white font-semibold">問合せフォーム</a>
-      </nav>
-      <!-- ハンバーガー -->
-      <button id="menuBtn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded border border-white/30 text-white/80">☰</button>
-    </div>
-  </header>
-
-  <!-- モバイルナビ -->
-  <div id="mobileNav" class="fixed inset-0 z-[10020] bg-black/60 opacity-0 pointer-events-none transition">
-    <div class="absolute right-3 top-3">
-      <button id="menuClose" class="w-10 h-10 rounded border border-white/30 text-white/90">✕</button>
-    </div>
-    <div class="absolute left-0 right-0 top-16 mx-6 rounded-2xl border border-white/20 bg-card p-4">
-      <a href="#concept"  class="block p-3 rounded hover:bg-white/5">Concept</a>
-      <a href="#services" class="block p-3 rounded hover:bg-white/5">Service</a>
-      <a href="#works"    class="block p-3 rounded hover:bg-white/5">Works</a>
-      <a href="#about"    class="block p-3 rounded hover:bg-white/5">OR Createとは</a>
-      <a href="#contact"  class="block p-3 rounded hover:bg-white/5">問合せフォーム</a>
-    </div>
-  </div>
-
-  <!-- ===== Hero ===== -->
-  <section id="top" class="parallax overflow-hidden border-b border-white/20">
-    <div class="px-layer"></div>
-    <div class="container mx-auto px-4 py-14 md:py-20">
-      <p class="uppercase tracking-wider text-sm text-white/80">CREATIVE / MUSIC / BEAUTY</p>
-      <h1 class="mt-3 text-[40px] md:text-[52px] font-extrabold">必要だけ、美しく創る</h1>
-      <p class="mt-4 text-white/90 max-w-xl">実績ある制作と美容の体制で、楽曲も美しさも。すべての人が輝くサポートを。</p>
-
-      <!-- 選択チップ -->
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#services" data-jump="#service-creative" class="chip">Creative</a>
-        <a href="#services" data-jump="#service-music"    class="chip">Music</a>
-        <a href="#services" data-jump="#service-beauty"   class="chip">Beauty</a>
-      </div>
-
-      <!-- Hero image -->
-      <div class="mt-8 hero-frame relative">
-        <picture>
-          <source srcset="image/main_Phone_image.png" media="(max-width: 767px)">
-          <img src="image/main_pc_image.png" alt="OR Create メインビジュアル" class="hero-media mask-soft" loading="eager" decoding="async">
-        </picture>
-        <div class="pointer-events-none absolute inset-0 rounded-[22px]"
-             style="background: radial-gradient(100% 100% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,.35) 100%);"></div>
-      </div>
-    </div>
-
-    <!-- セクション見出し -->
-    <div class="py-8 border-t border-white/20">
-      <div class="container mx-auto px-4">
-        <div class="rounded-2xl border border-white/15 bg-[linear-gradient(135deg,#1b1b1b,#0f0f0f)] overflow-hidden">
-          <div class="px-5 py-10 text-center">
-            <div class="text-[12px] tracking-[.2em] text-white/60">Selective Build</div>
-            <h2 class="mt-2 text-[30px] md:text-[44px] font-extrabold">
-              3つの領域から、<span class="accent-anim">必要なものだけを</span>
-            </h2>
-            <p class="mt-2 text-white/70">必要なぶんだけ束ねる、軽やかな体制。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Concept ===== -->
-  <section id="concept" class="parallax py-16 border-b border-white/20">
-    <div class="px-layer"></div>
-    <div class="container mx-auto px-4">
-      <h2 class="text-[28px] md:text-[32px] font-extrabold">Concept</h2>
-      <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <div class="rounded-2xl border border-white/25 p-6 bg-card">
-          <h3 class="font-semibold">音から始まる体制</h3>
-          <p class="mt-3 text-[16px] leading-8">コンペ参加から仕上げまで、必要な範囲だけを提供。制作過程は少人数体制、必要時のみ外部を追加します。</p>
-        </div>
-        <div class="rounded-2xl border border-white/25 p-6 bg-card">
-          <h3 class="font-semibold">シーンに合わせて整える。</h3>
-          <p class="mt-3 text-[16px] leading-8">目的から逆算したケアと導線で、当日の“きれい”を当たり前に。あわせて、社内共有や新人研修に使える運用の型も整備します。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== CTA ===== -->
-  <section id="cta" class="parallax py-12 border-b border-white/20">
-    <div class="px-layer"></div>
-    <div class="container mx-auto px-4">
-      <div class="rounded-2xl border border-white/15 bg-[linear-gradient(135deg,#111,#0c0c0c)] px-6 py-8 md:py-12">
-        <div class="cta-wrap">
-          <div class="text-left">
-            <div class="text-[22px] md:text-[28px] font-bold">制作と美容のサポートを</div>
-            <div class="text-white/70 mt-2 text-[16px]">まずはお気軽にお問い合わせください。</div>
-          </div>
-          <a href="#contact" class="btn-glow">問合せフォームへ</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Service ===== -->
-  <section id="services" class="parallax py-16 border-b border-white/20">
-    <div class="px-layer"></div>
-    <div class="container mx-auto px-4">
-      <h2 class="text-[28px] md:text-[32px] font-extrabold">Service</h2>
-
-      <!-- Creative -->
-      <div id="service-creative" class="mt-8 rounded-2xl border border-white/25 p-6 bg-card">
-        <h3 class="text-xl font-semibold">Creative</h3>
-        <div class="mt-4 grid sm:grid-cols-2 md:grid-cols-3 gap-3" data-group="svc-creative">
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              映像制作 <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>企画／撮影／編集。必要な範囲だけを設計し、企業VP・採用LP映像・イベントOP・MV・ドローンなどに対応。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              写真撮影 <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>撮影／レタッチ／AI活用。宣材・Web/HP素材・商品PR写真など、用途に合わせて最適化。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              イベント制作 <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>企画／進行／記録。企業イベント・結婚式・現場用映像など、運営と制作をシンプルに連携。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              ナレーション制作 <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>台本整理／録音／編集。商品PR映像・アプリ紹介・館内放送など、声の必要分だけ。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              Webマーケティング <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>SEO・MEO・SNS・サイト整備〜運用。LP改善や分析レポート、広告/制作との連携まで。</p></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Music -->
-      <div id="service-music" class="mt-8 rounded-2xl border border-white/25 p-6 bg-card">
-        <h3 class="text-xl font-semibold">Music</h3>
-        <div class="mt-4 grid sm:grid-cols-2 md:grid-cols-3 gap-3" data-group="svc-music">
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              楽曲制作（コンペ／提供） <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>作曲／編曲／仮歌。J-POP・J-ROCK・アニメ／キャラクター・VTuberなど、要件に合わせて編成。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              映像・ゲーム音楽 <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>BGM／SE／ジングル。アニメ・ゲーム・CM・番組など、画や体験に寄り添う音づくり。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              サウンドプロデュース <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>ディレクション／譜面／歌手・演奏手配。提出〜仕上げまで、必要な工程だけを併走。</p></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Beauty -->
-      <div id="service-beauty" class="mt-8 rounded-2xl border border-white/25 p-6 bg-card">
-        <h3 class="text-xl font-semibold">Beauty</h3>
-        <div class="mt-4 grid sm:grid-cols-2 md:grid-cols-3 gap-3" data-group="svc-beauty">
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              専属提携／福利厚生 <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>出演前施術・美容対応研修・各種診断・優待割引。運用に馴染む形で導入・標準化をサポート。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              イベント出展／美容体験ブース <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>企画／ケア体制／キャスティング。出演者のケア導線を設計し、制作・PRにも接続。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              タレント／モデル施術プラン <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>出演時ケア／季節プラン／中長期サポート。当日の仕上がりと継続運用の両立を支援。</p></div>
-          </div>
-          <div class="tile p-3 rounded-xl border border-white/25 bg-black/30">
-            <button class="w-full text-left font-medium flex items-center justify-between" data-toggle>
-              PR連携 <span class="text-white/60">⌄</span>
-            </button>
-            <div class="panel"><p>美容商品／施術のPR制作・SNS連携・レビュー/リール制作など、表現ガイドラインに配慮して実装。</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Works ===== -->
-  <section id="works" class="parallax py-16 border-b border-white/20">
-    <div class="px-layer"></div>
-    <div class="container mx-auto px-4">
-      <h2 class="text-[28px] md:text-[32px] font-extrabold">Works</h2>
-      <div class="relative mt-6">
-        <div id="scroll" class="no-scrollbar">
-          <div id="track">
-
-            <!-- JO1（画像のみ） -->
-<!-- JO1（YouTubeリンクあり） -->
-<div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card">
-  <div class="work-media card-media">
-    <img src="image/Music.png" alt="JO1 / JOin us!!" class="w-full h-full object-cover" loading="lazy">
-    <a class="open-link" href="https://youtu.be/6Y92rqcUMJk?si=6NGhOFU4aDiR5lay" target="_blank" rel="noopener" aria-label="YouTubeで開く">▶</a>
-    <div class="work-caption">
-      <div class="font-bold text-[15px]">JO1 / JOin us!!</div>
-      <div class="text-[12px] opacity-90">Music / 楽曲提供</div>
-    </div>
-  </div>
-</div>
-
-            <!-- 天音かなた（画像のみ） -->
-<!-- 天音かなた（YouTubeリンクあり） -->
-<div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card">
-  <div class="work-media card-media">
-    <img src="image/Music.png" alt="天音かなた / DA・LI・LA" class="w-full h-full object-cover" loading="lazy">
-    <a class="open-link" href="https://youtu.be/4qHnXDyVcYg?si=Y-KD-LeTezlisqQp" target="_blank" rel="noopener" aria-label="YouTubeで開く">▶</a>
-    <div class="work-caption">
-      <div class="font-bold text-[15px]">天音かなた / DA・LI・LA</div>
-      <div class="text-[12px] opacity-90">Music / 楽曲提供</div>
-    </div>
-  </div>
-</div>
-
-<!-- オドルポルカ（YouTubeリンクあり） -->
-<div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card">
-  <div class="work-media card-media">
-    <img src="image/Music.png" alt="オドルポルカ / 高橋ポルカ(綾咲穂音) from いきづらい部！（ラブライブ！）" class="w-full h-full object-cover" loading="lazy">
-    <a class="open-link" href="https://youtu.be/gCx5wexZi-U?si=TcaHx05wNNlAcSEg" target="_blank" rel="noopener" aria-label="YouTubeで開く">▶</a>
-    <div class="work-caption">
-      <div class="font-bold text-[15px]">オドルポルカ / 高橋ポルカ(綾咲穂音)</div>
-      <div class="text-[12px] opacity-90">Music / 楽曲提供（いきづらい部！／ラブライブ！）</div>
-    </div>
-  </div>
-</div>
-
-
-            <!-- 関コレ（画像のみ） -->
-            <div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card">
-              <div class="work-media card-media">
-                <img src="image/kansai.png" alt="関西コレクション2025A/W 出演者ブース出展" class="w-full h-full object-cover" loading="lazy">
-                <div class="work-caption"><div class="font-bold text-[15px]">関西コレクション2025A/W 出演者ブース出展</div><div class="text-[12px] opacity-90">Beauty / 出展・提携</div></div>
-              </div>
-            </div>
-
-            <!-- バストアップ専門（画像のみ） -->
-            <div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card">
-              <div class="work-media card-media">
-                <img src="image/Beauty.png" alt="バストアップ専門サロンオープン" class="w-full h-full object-cover" loading="lazy">
-                <div class="work-caption"><div class="font-bold text-[15px]">バストアップ専門サロンオープン</div><div class="text-[12px] opacity-90">Beauty / 企画・PR連携</div></div>
-              </div>
-            </div>
-
-            <!-- 研修用映像（画像のみ） -->
-            <div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card">
-              <div class="work-media card-media">
-                <img src="image/isk.png" alt="研修用映像 / 石原産業株式会社様" class="w-full h-full object-cover" loading="lazy">
-                <div class="work-caption"><div class="font-bold text-[15px]">研修用映像 / 石原産業株式会社様</div><div class="text-[12px] opacity-90">Creative / 企画・撮影・編集</div></div>
-              </div>
-            </div>
-
-            <!-- UnpRayable MV（YouTube） -->
-            <div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card" data-video="IX4_Adi5We0">
-              <div class="work-media card-media">
-                <img src="image/unp.png" alt="UnpRayable / ひとりじゃない MV" class="w-full h-full object-cover" loading="lazy">
-                <a class="open-link" href="https://youtu.be/IX4_Adi5We0?si=KWZJCeWnBqEOtogN" target="_blank" rel="noopener" aria-label="YouTubeで開く">▶</a>
-                <div class="work-caption"><div class="font-bold text-[15px]">UnpRayable / ひとりじゃない MV</div><div class="text-[12px] opacity-90">Creative / 映像制作</div></div>
-              </div>
-            </div>
-
-            <!-- 大阪市北区（Instagram Reel） -->
-            <div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card">
-              <div class="work-media card-media">
-                <img src="image/inst.png" alt="大阪市北区 動画コンテスト 2部門受賞" class="w-full h-full object-cover" loading="lazy">
-                <a class="open-link" href="https://www.instagram.com/reel/DEEkJOTxBwL/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" rel="noopener" aria-label="Instagramで開く">▶</a>
-                <div class="work-caption"><div class="font-bold text-[15px]">大阪市北区 動画コンテスト 2部門受賞</div><div class="text-[12px] opacity-90">Creative / 受賞</div></div>
-              </div>
-            </div>
-
-            <!-- マリンスポーツ（YouTube） -->
-            <div class="card work-card rounded-xl overflow-hidden border border-white/25 bg-card" data-video="I5vxb4gPBAI">
-              <div class="work-media card-media">
-                <img src="https://img.youtube.com/vi/I5vxb4gPBAI/hqdefault.jpg" alt="マリンスポーツ映像撮影（YouTube）" class="w-full h-full object-cover" loading="lazy">
-                <a class="open-link" href="https://youtu.be/I5vxb4gPBAI" target="_blank" rel="noopener" aria-label="YouTubeで開く">▶</a>
-                <div class="work-caption"><div class="font-bold text-[15px]">マリンスポーツ映像撮影</div><div class="text-[12px] opacity-90">Creative / 撮影（YouTube）</div></div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <button id="prev" class="hidden md:flex absolute inset-y-0 left-2 my-auto w-10 h-10 rounded-full border border-white/30 bg-black/50 items-center justify-center">←</button>
-        <button id="next" class="hidden md:flex absolute inset-y-0 right-2 my-auto w-10 h-10 rounded-full border border-white/30 bg-black/50 items-center justify-center">→</button>
-      </div>
-      <p class="mt-3 text-white/70 text-[14px] md:hidden text-center">左右にスワイプできます。</p>
-    </div>
-  </section>
-
-  <!-- ===== About ===== -->
-  <section id="about" class="parallax py-16 border-b border-white/20">
-    <div class="px-layer"></div>
-    <div class="container mx-auto px-4">
-      <h2 class="text-[28px] md:text-[32px] font-extrabold">OR Createとは</h2>
-    <div class="mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-4" data-group="about">
-        <!-- Navi -->
-        <div class="tile p-4 rounded-xl border border-white/25 bg-card">
-          <button class="w-full text-left font-semibold flex items-center justify-between" data-toggle>
-            株式会社Navi <span class="text-white/60">⌄</span>
-          </button>
-          <div class="panel">
-            <div class="org-badge light mb-3">
-              <img src="image/navi_logo.png" alt="Navi" class="logo">
-              <span class="text-[13px] text-black/80">Navi</span>
-            </div>
-            <p>2023年5月、大阪駅前第一ビルにオープン。以降、東京での出張施術やバストアップ専門サロンの開設など、最新技術を取り入れながら事業を拡大。累計1万人超のお客様にご利用いただき、インフルエンサー層にも選ばれています。2025年「KANSAI COLLECTION 2025 A/W」に出展し、モデル・タレント・アイドルの方々にもご利用いただきました。医療美容・最新美容に精通した専門スタッフが、安全で信頼性の高い施術体験をご提供します。</p>
-            <div class="mt-3 flex items-center gap-2 flex-wrap">
-              <a class="inline-flex items-center gap-2 px-2 py-1 rounded-md border border-white/30" href="https://navi-inc.com/" target="_blank" rel="noopener">HP</a>
-              <a class="inline-flex items-center gap-2 px-2 py-1 rounded-md border border-white/30" href="https://www.instagram.com/beauty.beauty.brow?utm_source=ig_web_button_share_sheet&igsh=MW9jcXRqd21zb2c5OQ==" target="_blank" rel="noopener">Instagram</a>
-            </div>
-          </div>
-        </div>
-        <!-- イデア -->
-        <div class="tile p-4 rounded-xl border border-white/25 bg-card">
-          <button class="w-full text-left font-semibold flex items-center justify-between" data-toggle>
-            株式会社イデア <span class="text-white/60">⌄</span>
-          </button>
-          <div class="panel">
-            <div class="org-badge mb-3" style="background:linear-gradient(180deg,rgba(27,99,255,.20),rgba(27,99,255,.08));border-color:rgba(27,99,255,.35)">
-              <img src="image/idea_logo.png" alt="IDEA" class="logo">
-              <span class="text-[13px] text-white/90">IDEA</span>
-            </div>
-            <p>制作事業／老人ホーム紹介事業／介護業界のWebマーケティング事業を運営。「感動を生み出す」をコンセプトに、映像制作をはじめ他業種の制作を展開。関西を中心に、大手企業映像、海外イベント用映像、MV等を手がけています。</p>
-            <div class="mt-3 opacity-60">HP（準備中）</div>
-          </div>
-        </div>
-        <!-- すぎやま -->
-        <div class="tile p-4 rounded-xl border border-white/25 bg-card">
-          <button class="w-full text-left font-semibold flex items-center justify-between" data-toggle>
-            すぎやまたくや <span class="text-white/60">⌄</span>
-          </button>
-          <div class="panel">
-            <p>OR Create プロデューサー／株式会社イデア 制作事業プロデューサー／株式会社Navi 広報担当。作曲・ギター・ベース。2017年、SMEグループよりメジャーデビュー後、メディアやタイアップを経験。以降、映像・イベント制作の統括や、ベースのレコーディングにも参加。2024年に二等無人航空機操縦士免許を取得。大阪市北区の動画コンテストで2部門受賞。</p>
-          </div>
-        </div>
-        <!-- つちや -->
-        <div class="tile p-4 rounded-xl border border-white/25 bg-card">
-          <button class="w-full text-left font-semibold flex items-center justify-between" data-toggle>
-            つちやみさと <span class="text-white/60">⌄</span>
-          </button>
-          <div class="panel">
-            <p>クリエイター。小学5年でギターを独学で開始、中学からバンド活動。大阪音楽大学短期大学部ポピュラーコース卒業。2015年よりギタリスト／サポート／レッスン講師として活動を本格化。現在は音楽クリエイターとして、メジャー・インディーズへの楽曲提供のほか、ファッションショーやテレビ番組など多方面で制作を手がける。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Contact ===== -->
-  <section id="contact" class="py-12 border-t border-white/20">
-    <div class="container mx-auto px-4">
-      <h2 class="text-[26px] md:text-[32px] font-extrabold tracking-tight">問合せフォーム</h2>
-      <p class="mt-2 text-white/80 font-mono text-[14px]">
-        制作と美容のサポートを。<span class="text-white/60">まずはお気軽にお問い合わせください。</span>
-      </p>
-      <div class="mt-6 grid md:grid-cols-2 gap-6">
-        <!-- 左：Googleフォーム -->
-        <div class="rounded-2xl border border-white/25 bg-card relative overflow-hidden w-full form-embed">
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSfzNIdOMfGiEF_4tOp5z2TTs8KWT1xO8W8v3zf3FCpRp_Xevg/viewform?embedded=true"
-            class="w-full h-full block"
-            frameborder="0" marginheight="0" marginwidth="0" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-
-        <!-- 右：メール／DM -->
-        <div class="rounded-2xl border border-white/25 p-6 bg-card">
-          <h3 class="font-semibold text-white">メールやDMでのお問い合わせはコチラで</h3>
-          <div class="mt-6 grid grid-cols-1 gap-4">
-            <!-- Mail：Gmail優先 → 失敗時 mailto -->
-            <a
-              href="mailto:idea.crankup@gmail.com?subject=OR%20Create%20LP%20お問い合わせ&body=%E3%81%8A%E5%90%8D%E5%89%8D%3A%0D%0A%E4%BC%9A%E7%A4%BE%E5%90%8D%2F%E6%A5%AD%E7%A8%AE%3A%0D%0A%E3%81%94%E7%94%A8%E4%BB%B6%3A%0D%0A%0D%0A%5BOR%20Create%5D"
-              data-gmail
-              class="group flex items-center gap-4 p-4 rounded-xl border border-white/30 hover:border-white/70 hover:bg-white/5">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" stroke="#fff" stroke-opacity=".9" stroke-width="1.3"/>
-                <path d="M4 7l8 6 8-6" stroke="#A6FF00" stroke-width="1.3"/>
-              </svg>
-              <div>
-                <div class="text-[18px] font-semibold">E-mail</div>
-                <div class="text-white/80">idea.crankup@gmail.com</div>
-              </div>
+<body>
+    <!-- ヘッダー -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><img src="image/logo.png" alt="OR Create"></div>
+                <span>OR Create</span>
             </a>
-
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/takuya_qyoto?utm_source=ig_web_button_share_sheet&igsh=MXJwMnlic21hbW5lNw==" target="_blank" rel="noopener"
-               class="group flex items-center gap-4 p-4 rounded-xl border border-white/30 hover:border-white/70 hover:bg-white/5">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="3" width="18" height="18" rx="5" stroke="#fff" stroke-opacity=".9" stroke-width="1.3"/>
-                <circle cx="12" cy="12" r="3.7" stroke="#A6FF00" stroke-width="1.3"/>
-                <circle cx="17.5" cy="6.5" r="1.2" fill="#A6FF00"/>
-              </svg>
-              <div>
-                <div class="text-[18px] font-semibold">Instagram DM</div>
-                <div class="text-white/80">@takuya_qyoto</div>
-              </div>
-            </a>
-          </div>
+            <nav class="nav">
+                <a href="index.html" class="active">Home</a>
+                <a href="works.html">Works</a>
+                <a href="team.html">Team</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">About</a>
+                <a href="contact.html" class="nav-cta">Contact</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
-      </div>
+    </header>
+
+    <!-- パララックス背景レイヤー -->
+    <div class="parallax-bg">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
     </div>
-  </section>
 
-  <footer class="py-10 border-t border-white/20 text-center text-xs text-white/70">
-    © 2025 OR Create ・ <a href="#top" class="underline">TOPへ戻る</a>
-  </footer>
+    <!-- パーティクル背景 -->
+    <div class="particles-container" id="particles"></div>
 
-  <!-- 常時表示 TOPへ -->
-  <a id="toTop" href="#top" aria-label="ページ上部へ">↑</a>
+    <!-- ヒーローセクション - 超モダンデザイン -->
+    <section class="hero-ultra-modern">
+        <div class="hero-blur-orbs">
+            <div class="blur-orb orb-1"></div>
+            <div class="blur-orb orb-2"></div>
+            <div class="blur-orb orb-3"></div>
+        </div>
 
-  <!-- Overlay roots -->
-  <div id="overlay-scrim"></div>
-  <div id="overlay-root"></div>
+        <div class="container">
+            <div class="hero-grid-ultra">
+                <div class="hero-content-ultra">
+                    <div class="hero-badge-ultra">
+                        <span class="badge-dot"></span>
+                        Creative / Music / Beauty
+                    </div>
 
-  <!-- ===== JS（安全版：DOMContentLoaded内で初期化） ===== -->
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    /* ===== Progress ===== */
-    const bar = document.getElementById('progress-bar');
-    if (bar) {
-      const onScroll = () => {
-        const h = document.documentElement;
-        const denom = (h.scrollHeight - h.clientHeight) || 1;
-        const p = h.scrollTop / denom;
-        bar.style.transform = `scaleX(${Math.max(0, Math.min(1, p))})`;
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      onScroll();
-    }
+                    <h1 class="hero-title-ultra">
+                        <span class="title-line">必要だけ、</span>
+                        <span class="title-line gradient-text-animated">美しく創る</span>
+                    </h1>
 
-    /* ===== Hero in ===== */
-    const hero = document.querySelector('.hero-media');
-    if (hero) hero.style.animation = 'heroIn 1.1s ease both';
+                    <p class="hero-description-ultra">
+                        実績ある制作と美容の体制で、楽曲も美しさも。<br>
+                        すべての人が輝くサポートを提供します。
+                    </p>
 
-    /* ===== Parallax ===== */
-    function spawnSquares(){
-      document.querySelectorAll('.parallax').forEach(sec=>{
-        const layer=sec.querySelector('.px-layer'); if(!layer) return;
-        layer.innerHTML='';
-        const n=10+Math.floor(Math.random()*7);
-        for(let i=0;i<n;i++){
-          const el=document.createElement('div');
-          el.className='floaty drift';
-          const size=44+Math.random()*110;
-          const dx=(Math.random()*.6+.25)*38*(Math.random()<.5?-1:1);
-          const dy=(Math.random()*.6+.25)*38*(Math.random()<.5?-1:1);
-          el.style.cssText=`--t:${18+Math.random()*14}s;--dx:${dx}px;--dy:${dy}px;width:${size}px;height:${size}px;top:${Math.random()*92}%;left:${Math.random()*92}%;opacity:${0.14+Math.random()*0.1}`;
-          el.setAttribute('data-px',(0.06+Math.random()*0.18).toFixed(2));
-          layer.appendChild(el);
-        }
-      });
-    }
-    spawnSquares();
-    const pxEls = () => document.querySelectorAll('[data-px]');
-    let targetY=window.scrollY,smoothY=window.scrollY;
-    window.addEventListener('scroll',()=>{targetY=window.scrollY},{passive:true});
-    (function raf(){
-      smoothY+=(targetY-smoothY)*0.03;
-      pxEls().forEach(el=>{
-        const s=parseFloat(el.getAttribute('data-px'));
-        el.style.transform=`translate3d(0, ${smoothY*s}px, 0)`;
-      });
-      requestAnimationFrame(raf);
-    })();
-    window.addEventListener('resize',spawnSquares);
+                    <div class="hero-stats-inline">
+                        <div class="stat-inline">
+                            <span class="stat-number-inline">メジャーアーティスト実績</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-inline">
+                            <span class="stat-number-inline">TV・アニメタイアップ多数</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-inline">
+                            <span class="stat-number-inline">大型イベント出展実績</span>
+                        </div>
+                    </div>
 
-    /* ===== Reveal ===== */
-    const io=new IntersectionObserver(es=>es.forEach(e=>{
-      if(e.isIntersecting){e.target.classList.add('inview');io.unobserve(e.target)}
-    }),{threshold:.12});
-    document.querySelectorAll('.reveal,.accent-anim').forEach(el=>io.observe(el));
+                    <div class="hero-actions-ultra">
+                        <a href="contact.html" class="btn-ultra btn-primary-ultra">
+                            <span>お問い合わせ</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="works.html" class="btn-ultra btn-glass-ultra">
+                            <span>実績を見る</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-9 9M3 21l9-9"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
 
-    /* ===== Chips ===== */
-    document.querySelectorAll('[data-jump]').forEach(btn=>{
-      btn.addEventListener('click',e=>{
-        const id=btn.getAttribute('data-jump');
-        const el=document.querySelector(id);
-        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
-      });
-    });
+                <div class="hero-visual-ultra">
+                    <div class="visual-grid-ultra">
+                        <div class="visual-item-ultra visual-large">
+                            <div class="visual-content">
+                                <span class="visual-tag">Music</span>
+                                <h3>JO1</h3>
+                                <p>JOin us!!</p>
+                            </div>
+                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.8) 0%, rgba(245, 87, 108, 0.8) 100%), url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=800&fit=crop') center/cover;"></div>
+                        </div>
 
-    /* ===== Panels with portal & scrim（安定化） ===== */
-    const overlayRoot = document.getElementById('overlay-root');
-    const scrim       = document.getElementById('overlay-scrim');
-    const canPortal   = !!(overlayRoot && scrim);
+                        <div class="visual-item-ultra visual-small">
+                            <div class="visual-content">
+                                <span class="visual-tag">Creative</span>
+                                <h3>映像制作</h3>
+                            </div>
+                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%), url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=600&fit=crop') center/cover;"></div>
+                        </div>
 
-    let currentOpenTile=null;
-    let lastIsMobile = window.innerWidth < 768;
-    const isMobile   = () => window.innerWidth < 768;
+                        <div class="visual-item-ultra visual-small">
+                            <div class="visual-content">
+                                <span class="visual-tag">Beauty</span>
+                                <h3>KANSAI COLLECTION</h3>
+                            </div>
+                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(79, 172, 254, 0.8) 0%, rgba(0, 242, 254, 0.8) 100%), url('https://images.unsplash.com/photo-1560869713-bf17c8b2dad8?w=600&h=600&fit=crop') center/cover;"></div>
+                        </div>
 
-    function mountPanel(tile, mode){
-      const inTilePanel = tile.querySelector('.panel');
-      const portalPanel = overlayRoot?.querySelector?.('.panel.portal-panel');
-      const panel = inTilePanel || portalPanel;
-      if(!panel) return;
+                        <div class="visual-item-ultra visual-medium">
+                            <div class="visual-content">
+                                <span class="visual-tag">Music</span>
+                                <h3>天音かなた</h3>
+                                <p>DA・LI・LA</p>
+                            </div>
+                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(250, 112, 154, 0.8) 0%, rgba(254, 225, 64, 0.8) 100%), url('https://images.unsplash.com/photo-1�514320291840-2e0a9bf2a9ae?w=800&h=600&fit=crop') center/cover;"></div>
+                        </div>
+                    </div>
 
-      // リセット
-      panel.classList.remove('portal-panel','inplace');
-      panel.removeAttribute('style');
+                    <div class="floating-badge badge-float-1">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/>
+                        </svg>
+                        <span>メジャー実績</span>
+                    </div>
 
-      if(mode==='mobile' || !canPortal){
-        tile.appendChild(panel);
-        panel.classList.add('inplace');
-        scrim?.classList.remove('on');
-      }else{
-        const vw = window.innerWidth;
-        const w  = Math.min(820, Math.max(520, Math.floor(vw * 0.56))); // clamp
-        const left = Math.round((vw - w)/2);
-        const rect = tile.getBoundingClientRect();
-        const top  = Math.max(12, rect.bottom + 10);
+                    <div class="floating-badge badge-float-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
+                            <line x1="7" y1="2" x2="7" y2="22"/>
+                            <line x1="17" y1="2" x2="17" y2="22"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <line x1="2" y1="7" x2="7" y2="7"/>
+                            <line x1="2" y1="17" x2="7" y2="17"/>
+                            <line x1="17" y1="17" x2="22" y2="17"/>
+                            <line x1="17" y1="7" x2="22" y2="7"/>
+                        </svg>
+                        <span>総合制作</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        panel.style.width = w+'px';
-        panel.style.left  = left+'px';
-        panel.style.top   = top +'px';
+        <div class="hero-scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
-        panel.classList.add('portal-panel');
-        overlayRoot.appendChild(panel);
-        scrim?.classList.add('on');
+    <!-- サービス概要 - 3軸 -->
+    <section class="services-overview">
+        <div class="container">
+            <div class="section-header-modern">
+                <span class="label-modern">What We Do</span>
+                <h2>3つの軸で、<br>包括的なクリエイティブサポート</h2>
+            </div>
+            <div class="service-cards-modern">
+                <div class="service-card-modern" data-color="creative" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80');">
+                    <div class="service-icon-modern">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="3" rx="2"/>
+                            <path d="M7 3v18"/>
+                            <path d="M3 7.5h4"/>
+                            <path d="M3 12h18"/>
+                            <path d="M3 16.5h4"/>
+                            <path d="M17 3v18"/>
+                            <path d="M17 7.5h4"/>
+                            <path d="M17 16.5h4"/>
+                        </svg>
+                    </div>
+                    <h3>Creative</h3>
+                    <p>映像制作・写真撮影・Webマーケティング・イベント企画。企業VP、MV、広告映像など幅広く対応。</p>
+                    <ul class="service-list-modern">
+                        <li>映像制作（企業VP・MV・広告）</li>
+                        <li>写真撮影・レタッチ</li>
+                        <li>Webマーケティング・LP制作</li>
+                        <li>イベント企画・制作</li>
+                    </ul>
+                    <a href="services.html#creative" class="service-link-modern">詳しく見る →</a>
+                </div>
+                <div class="service-card-modern" data-color="music" style="background-image: url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80');">
+                    <div class="service-icon-modern">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"/>
+                            <circle cx="6" cy="18" r="3"/>
+                            <circle cx="18" cy="16" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>Music</h3>
+                    <p>楽曲制作・編曲・サウンドプロデュース。メジャーアーティスト、VTuber、アニメタイアップなど多数実績。</p>
+                    <ul class="service-list-modern">
+                        <li>楽曲制作・編曲</li>
+                        <li>トラックメイク</li>
+                        <li>ギター・ベース演奏</li>
+                        <li>コンペ対応・楽曲提供</li>
+                    </ul>
+                    <a href="services.html#music" class="service-link-modern">詳しく見る →</a>
+                </div>
+                <div class="service-card-modern" data-color="beauty" style="background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80');">
+                    <div class="service-icon-modern">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                            <path d="M5 3v4"/>
+                            <path d="M19 17v4"/>
+                            <path d="M3 5h4"/>
+                            <path d="M17 19h4"/>
+                        </svg>
+                    </div>
+                    <h3>Beauty</h3>
+                    <p>タレント・モデル向け専属美容提携、大型イベント出展、サロン運営支援。累計10,000人以上のお客様。</p>
+                    <ul class="service-list-modern">
+                        <li>タレント専属美容提携</li>
+                        <li>大型イベント出展サポート</li>
+                        <li>サロン運営支援</li>
+                        <li>PR連携・SNS制作</li>
+                    </ul>
+                    <a href="services.html#beauty" class="service-link-modern">詳しく見る →</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        panel._sync = ()=>{
-          const vw2 = window.innerWidth;
-          const w2  = Math.min(820, Math.max(520, Math.floor(vw2 * 0.56)));
-          const l2  = Math.round((vw2 - w2)/2);
-          const r   = tile.getBoundingClientRect();
-          panel.style.width=w2+'px';
-          panel.style.left =l2+'px';
-          panel.style.top  =Math.max(12, r.bottom+10)+'px';
-        };
-        window.addEventListener('scroll',panel._sync,{passive:true});
-        window.addEventListener('resize',panel._sync);
-      }
-    }
+    <!-- 実績ハイライト - iPod Cover Flow風 -->
+    <section class="works-showcase">
+        <div class="container">
+            <div class="section-header-modern">
+                <span class="label-modern">Featured Works</span>
+                <h2>注目の実績</h2>
+            </div>
 
-    function openTilePanel(tile){
-      if(currentOpenTile && currentOpenTile!==tile){ closeTilePanel(currentOpenTile); }
-      tile.classList.add('open'); currentOpenTile=tile;
-      mountPanel(tile, isMobile()?'mobile':'desktop');
-      if(isMobile()){ setTimeout(()=>{ tile.scrollIntoView({behavior:'smooth', block:'start'}); }, 10); }
-    }
+            <div class="coverflow-container">
+                <button class="coverflow-nav coverflow-prev" aria-label="前へ">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
 
-    function closeTilePanel(tile){
-      tile.classList.remove('open');
-      const panel = tile.querySelector('.panel') || overlayRoot?.querySelector?.('.panel.portal-panel');
-      if(!panel) return;
-      if(panel._sync){ window.removeEventListener('scroll',panel._sync); window.removeEventListener('resize',panel._sync); panel._sync=null; }
-      panel.classList.remove('portal-panel','inplace');
-      panel.removeAttribute('style');
-      tile.appendChild(panel);
-      scrim?.classList.remove('on');
-      currentOpenTile=null;
-    }
+                <div class="coverflow-wrapper">
+                    <div class="coverflow-track">
+                        <div class="coverflow-item" data-youtube="6Y92rqcUMJk">
+                            <div class="coverflow-image">
+                                <img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt="JO1" onerror="this.src='https://img.youtube.com/vi/6Y92rqcUMJk/hqdefault.jpg'">
+                                <div class="work-play-btn">▶</div>
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>JOin us!!</h3>
+                                <p>JO1</p>
+                                <span class="work-tag-apple">Music</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item" data-youtube="gCx5wexZi-U">
+                            <div class="coverflow-image">
+                                <img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt="尾丸ポルカ" onerror="this.src='https://img.youtube.com/vi/gCx5wexZi-U/hqdefault.jpg'">
+                                <div class="work-play-btn">▶</div>
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>オドルポルカ</h3>
+                                <p>尾丸ポルカ (CV.綾咲穂音)</p>
+                                <span class="work-tag-apple">Music</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item" data-youtube="4qHnXDyVcYg">
+                            <div class="coverflow-image">
+                                <img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="天音かなた" onerror="this.src='https://img.youtube.com/vi/4qHnXDyVcYg/hqdefault.jpg'">
+                                <div class="work-play-btn">▶</div>
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>DA・LI・LA</h3>
+                                <p>天音かなた</p>
+                                <span class="work-tag-apple">Music</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item">
+                            <div class="coverflow-image">
+                                <img src="image/isk.png" alt="石原産業">
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>研修用映像</h3>
+                                <p>石原産業様</p>
+                                <span class="work-tag-apple">Creative</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item">
+                            <div class="coverflow-image">
+                                <img src="image/kansai.png" alt="関西コレクション">
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>出演者ブース映像</h3>
+                                <p>KANSAI COLLECTION</p>
+                                <span class="work-tag-apple">Creative</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item">
+                            <div class="coverflow-image">
+                                <img src="image/inst.png" alt="大阪市北区">
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>コンテスト受賞</h3>
+                                <p>大阪市北区</p>
+                                <span class="work-tag-apple">Creative</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item" data-youtube="hfQuBmxV-zo">
+                            <div class="coverflow-image">
+                                <img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt="CUBERS" onerror="this.src='https://img.youtube.com/vi/hfQuBmxV-zo/hqdefault.jpg'">
+                                <div class="work-play-btn">▶</div>
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>CHOICE</h3>
+                                <p>CUBERS</p>
+                                <span class="work-tag-apple">Music</span>
+                            </div>
+                        </div>
+                        <a href="https://ensemble-stars.jp/discography/musicdetails/ixrj9_w5nufl" target="_blank" class="coverflow-item">
+                            <div class="coverflow-image">
+                                <img src="image/Music.png" alt="あんさんぶるスターズ">
+                                <div class="work-play-btn">🔗</div>
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>Boku Sketch</h3>
+                                <p>あんさんぶるスターズ</p>
+                                <span class="work-tag-apple">Music</span>
+                            </div>
+                        </a>
+                        <div class="coverflow-item">
+                            <div class="coverflow-image">
+                                <img src="image/Creative.png" alt="トンボリステーション">
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>企業広告映像</h3>
+                                <p>トンボリステーション</p>
+                                <span class="work-tag-apple">Creative</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item">
+                            <div class="coverflow-image">
+                                <img src="image/Creative.png" alt="MV撮影">
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>MV撮影</h3>
+                                <p>アーティスト各種</p>
+                                <span class="work-tag-apple">Creative</span>
+                            </div>
+                        </div>
+                        <div class="coverflow-item">
+                            <div class="coverflow-image">
+                                <img src="image/Beauty.png" alt="KANSAI COLLECTION">
+                            </div>
+                            <div class="coverflow-info">
+                                <h3>KANSAI COLLECTION 2025 A/W</h3>
+                                <p>大型ファッションイベント出展</p>
+                                <span class="work-tag-apple">Beauty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    function setupGroup(name){
-      document.querySelectorAll(`[data-group="${name}"]`).forEach(grid=>{
-        grid.addEventListener('click',e=>{
-          const btn=e.target.closest('[data-toggle]'); if(!btn) return;
-          const tile=btn.closest('.tile');
-          tile.classList.contains('open') ? closeTilePanel(tile) : openTilePanel(tile);
-        });
-      });
-    }
-    ['svc-creative','svc-music','svc-beauty','about'].forEach(setupGroup);
+                <button class="coverflow-nav coverflow-next" aria-label="次へ">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+            </div>
 
-    // スクロールで自動クローズ
-    let _lastY=window.scrollY;
-    window.addEventListener('scroll',()=>{
-      if(!currentOpenTile) return;
-      const r=currentOpenTile.getBoundingClientRect();
-      const moved=Math.abs(window.scrollY-_lastY)>window.innerHeight*0.33;
-      if(r.top<-160 || r.top>window.innerHeight+160 || moved){ closeTilePanel(currentOpenTile); }
-      _lastY=window.scrollY;
-    },{passive:true});
+            <div class="showcase-action">
+                <a href="works.html" class="btn-modern btn-outline-modern">すべての実績を見る</a>
+            </div>
+        </div>
+    </section>
 
-    // ブレークポイント跨ぎの再配置
-    window.addEventListener('resize',()=>{
-      const nowMobile = isMobile();
-      if(nowMobile!==lastIsMobile && currentOpenTile){
-        mountPanel(currentOpenTile, nowMobile?'mobile':'desktop');
-      }
-      lastIsMobile = nowMobile;
-    });
+    <!-- チーム紹介 -->
+    <section class="team-intro">
+        <div class="container">
+            <div class="section-header-modern">
+                <span class="label-modern">Our Team</span>
+                <h2>プロフェッショナルチーム</h2>
+            </div>
+            <div class="team-preview-cards">
+                <a href="team.html#sugiyama" class="team-preview-card">
+                    <div class="team-preview-image" style="background: url('image/TAKUYA.png') center/cover;">
+                        <div class="member-bg-text">PRODUCER • BASSIST • MUSIC • CREATIVE •</div>
+                        <div class="team-preview-overlay">
+                            <span class="team-preview-role">Producer / Bassist</span>
+                        </div>
+                    </div>
+                    <div class="team-preview-content">
+                        <h3>すぎやまたくや</h3>
+                        <p>SMEグループからメジャーデビュー。アニメタイアップ多数。楽曲制作・マーケティングを統括。</p>
+                        <div class="team-preview-link">詳しく見る →</div>
+                    </div>
+                </a>
+                <a href="team.html#tsuchiya" class="team-preview-card">
+                    <div class="team-preview-image" style="background: url('image/MISATO.png') center/cover;">
+                        <div class="member-bg-text">CREATOR • GUITARIST • MUSIC • ARTIST •</div>
+                        <div class="team-preview-overlay">
+                            <span class="team-preview-role">Creator / Guitarist</span>
+                        </div>
+                    </div>
+                    <div class="team-preview-content">
+                        <h3>つちやみさと</h3>
+                        <p>音楽クリエイター。メジャー・インディーズへの楽曲提供、ファッションショー・TV番組など多方面で活躍。</p>
+                        <div class="team-preview-link">詳しく見る →</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
 
-    // Escape / スクラム
-    scrim?.addEventListener('click',()=>{ if(currentOpenTile) closeTilePanel(currentOpenTile); });
-    window.addEventListener('keydown',e=>{ if(e.key==='Escape' && currentOpenTile) closeTilePanel(currentOpenTile); });
+    <!-- 強みと実績 -->
+    <section class="stats-modern">
+        <div class="container">
+            <div class="stats-grid-modern">
+                <div class="stat-card-modern">
+                    <div class="stat-icon-large">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"/>
+                            <circle cx="6" cy="18" r="3"/>
+                            <circle cx="18" cy="16" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label-modern">メジャーアーティスト<br>楽曲提供実績</div>
+                </div>
+                <div class="stat-card-modern">
+                    <div class="stat-icon-large">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="15" x="2" y="7" rx="2" ry="2"/>
+                            <polyline points="17 2 12 7 7 2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label-modern">TV・アニメ<br>タイアップ多数</div>
+                </div>
+                <div class="stat-card-modern">
+                    <div class="stat-icon-large">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                            <path d="M5 3v4"/>
+                            <path d="M19 17v4"/>
+                            <path d="M3 5h4"/>
+                            <path d="M17 19h4"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label-modern">大型イベント<br>出展サポート</div>
+                </div>
+                <div class="stat-card-modern">
+                    <div class="stat-icon-large">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label-modern">Creative / Music / Beauty<br>3軸の総合力</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    /* ===== Works slider ===== */
-    const scrollEl=document.getElementById('scroll');
-    const track=document.getElementById('track');
-    if (scrollEl && track) {
-      const originals=[...track.children];
-      const BUFFER=4;
-      const leftClones=originals.slice(-BUFFER).map(n=>n.cloneNode(true));
-      const rightClones=originals.slice(0,BUFFER).map(n=>n.cloneNode(true));
-      leftClones.forEach(n=>track.insertBefore(n, originals[0]));
-      rightClones.forEach(n=>track.appendChild(n));
-      const cards=[...track.querySelectorAll('.card')];
-      const REAL_START=BUFFER, REAL_END=BUFFER+originals.length-1;
-      function centerOf(el){return el.offsetLeft+el.clientWidth/2}
-      function centerCard(i, smooth=true){const t=cards[i]; if(!t) return; const left=t.offsetLeft-(scrollEl.clientWidth-t.clientWidth)/2; scrollEl.scrollTo({left,behavior:smooth?'smooth':'auto'});}
-      function nearest(){const c=scrollEl.scrollLeft+scrollEl.clientWidth/2; let bi=0,bd=1/0; cards.forEach((k,i)=>{const d=Math.abs(centerOf(k)-c); if(d<bd){bd=d;bi=i}}); return bi}
-      function updateFocus(){const c=scrollEl.scrollLeft+scrollEl.clientWidth/2; const desk=matchMedia('(min-width:768px)').matches; cards.forEach(k=>{const d=Math.abs(centerOf(k)-c); const n=Math.min(d/(scrollEl.clientWidth/2),1); k.style.transform=`scale(${1-(desk?0.14:0.10)*n})`; k.style.opacity=`${1-(desk?0.6:0.4)*n}`})}
-      function correctLoop(){const i=nearest(); if(i<REAL_START-1) centerCard(i+originals.length,false); else if(i>REAL_END+1) centerCard(i-originals.length,false)}
-      cards.forEach((k,i)=>k.addEventListener('click',()=>centerCard(i)));
-      document.getElementById('prev')?.addEventListener('click',()=>centerCard(nearest()-1));
-      document.getElementById('next')?.addEventListener('click',()=>centerCard(nearest()+1));
-      scrollEl.addEventListener('scroll',()=>{updateFocus();correctLoop()},{passive:true});
-      window.addEventListener('resize',updateFocus);
-      window.addEventListener('load',()=>{centerCard(REAL_START,false);updateFocus()});
-    }
+    <!-- CTA -->
+    <section class="cta-modern">
+        <div class="container">
+            <div class="cta-content-modern">
+                <h2>プロジェクトを始めましょう</h2>
+                <p>楽曲制作、映像制作、美容サポート。あなたのニーズに合わせたサービスを提供します。</p>
+                <a href="contact.html" class="btn-modern btn-primary-modern btn-large">
+                    お問い合わせ
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
 
-    /* ===== Mobile menu ===== */
-    const menuBtn=document.getElementById('menuBtn');
-    const menuClose=document.getElementById('menuClose');
-    const mobileNav=document.getElementById('mobileNav');
-    function openNav(){ if(mobileNav){ mobileNav.style.opacity='1'; mobileNav.style.pointerEvents='auto'; } }
-    function closeNav(){ if(mobileNav){ mobileNav.style.opacity='0'; mobileNav.style.pointerEvents='none'; } }
-    menuBtn?.addEventListener('click',openNav);
-    menuClose?.addEventListener('click',closeNav);
-    mobileNav?.addEventListener('click',e=>{ if(e.target===mobileNav) closeNav(); });
-    document.querySelectorAll('#mobileNav a[href^="#"]').forEach(a=>a.addEventListener('click',closeNav));
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <h3>OR Create</h3>
+                <p>Creative / Music / Beauty の3軸で、包括的なクリエイティブサービスを提供するチームです。</p>
+            </div>
+            <div>
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="works.html">Works</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html#creative">Creative</a></li>
+                    <li><a href="services.html#music">Music</a></li>
+                    <li><a href="services.html#beauty">Beauty</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="contact.html">お問い合わせ</a></li>
+                    <li><a href="mailto:idea.crankup@gmail.com">Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 OR Create. All rights reserved.</p></div>
+    </footer>
 
-    /* ===== Gmail優先（失敗時 mailto） ===== */
-    (function setupGmailCompose(){
-      const a = document.querySelector('a[data-gmail]');
-      if(!a) return;
-      const to   = 'idea.crankup@gmail.com';
-      const subj = 'OR Create LP お問い合わせ';
-      const body = 'お名前:%0D%0A会社名/業種:%0D%0Aご用件:%0D%0A%0D%0A[OR Create]';
-      const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subj}&body=${body}`;
-      a.addEventListener('click',(e)=>{
-        e.preventDefault();
-        const w = window.open(gmailURL,'_blank','noopener');
-        setTimeout(()=>{ if(!w || w.closed) location.href = a.getAttribute('href'); }, 200);
-      });
-    })();
-  });
-  </script>
+    <!-- TOPに戻るボタン -->
+    <button id="scrollToTop" class="scroll-to-top" aria-label="TOPに戻る">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="youtube-modal.js"></script>
 </body>
 </html>
