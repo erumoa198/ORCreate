@@ -136,8 +136,41 @@
         // フォーム送信処理
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('お問い合わせありがとうございます。\n後ほど担当者よりご連絡させていただきます。');
-            this.reset();
+
+            const form = this;
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+
+            // 送信中の表示
+            submitButton.disabled = true;
+            submitButton.innerHTML = '送信中...';
+
+            // フォームデータを取得
+            const formData = new FormData(form);
+
+            // Google Apps ScriptにPOST送信
+            fetch('https://script.google.com/macros/s/AKfycbyA4fjlwBiecU-ouDnuBnDY7Oz8IYPZsnaZxz7tMblF8qy7-KvIwQrBuE4esJQe_3n5ew/exec', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    alert('お問い合わせありがとうございます。\n後ほど担当者よりご連絡させていただきます。');
+                    form.reset();
+                } else {
+                    alert('送信中にエラーが発生しました。\nお手数ですが、直接メールでご連絡ください。');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('送信中にエラーが発生しました。\nお手数ですが、直接メールでご連絡ください。');
+            })
+            .finally(() => {
+                // ボタンを元に戻す
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            });
         });
     </script>
 </body>
