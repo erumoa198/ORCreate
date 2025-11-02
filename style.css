@@ -4260,6 +4260,40 @@ body > * {
         scroll-snap-align: start;
     }
 
+    .works-grid-album .album-cover {
+        width: 160px !important;
+        height: 160px !important;
+        aspect-ratio: 1 !important;
+        overflow: hidden;
+    }
+
+    .works-grid-album .album-cover img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    .works-grid-album .album-info {
+        width: 160px;
+    }
+
+    .works-grid-album .album-info h4 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        word-break: break-word;
+    }
+
+    .works-grid-album .album-info p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+    }
+
     .genre-section {
         margin-bottom: 4rem;
     }
