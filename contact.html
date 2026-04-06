@@ -5,58 +5,227 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>お問い合わせ | OR Create</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav-pc.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0c0c0c; }
+        .page-header {
+            padding: 160px 0 80px;
+            background: #0c0c0c;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-family: 'Shippori Mincho', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 1rem;
+        }
+        .page-header p {
+            color: rgba(255,255,255,0.5);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .section-label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #22c55e;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== パターン背景 ===== */
+        .bg-pattern { position: relative; }
+        .bg-pattern::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(-45deg, transparent, transparent 80px, rgba(255,255,255,0.015) 80px, rgba(255,255,255,0.015) 81px);
+            pointer-events: none;
+        }
+
+        /* ===== Container ===== */
+        .container { max-width: none; margin: 0; padding: 0 clamp(3rem, 8vw, 10rem); }
+        .container-narrow { max-width: 800px; margin: 0 auto; padding: 0 clamp(2rem, 5vw, 4rem); }
+
+        /* ===== Form Section ===== */
+        .form-section {
+            background: #1a1a1a;
+            padding: 100px 0;
+        }
+        .form-wrapper {
+            padding: 3rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 0.5rem;
+        }
+        .form-group .required {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            border-radius: 0;
+            outline: none;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #22c55e;
+        }
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 160px;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 1.2rem;
+            background: #22c55e;
+            color: #000;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            letter-spacing: 0.02em;
+        }
+        button[type="submit"]:hover { background: #16a34a; }
+        button[type="submit"]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ===== Email Info ===== */
+        .email-info {
+            margin-top: 2.5rem;
+            text-align: center;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+        }
+        .email-info p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .email-info a {
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .email-info a:hover {
+            color: #16a34a;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 600px) {
+            .form-wrapper { padding: 2rem 1.5rem; }
+            .container-narrow { padding: 0 1rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- ヘッダー -->
-    <header class="header" id="header">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon"><img src="image/logo.png" alt="OR Create"></div>
+    <!-- カーブメニュー -->
+    <div id="curveMenu">
+        <div class="hamburger-curve">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="menu-inner-curve">
+            <div class="menu-logo">
+                <img src="image/logo.png" alt="OR Create">
                 <span>OR Create</span>
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </div>
+        <svg version="1.1" id="blob" xmlns="http://www.w3.org/2000/svg">
+            <path id="blob-path" d="M60,500H0V0h60c0,0,20,172,20,250S60,900,60,500z"/>
+        </svg>
+    </div>
+
+    <!-- トップバー（ロゴのみ） -->
+    <header class="header-minimal" id="header">
+        <div class="container">
+            <a href="index.html" class="logo-minimal">
+                <img src="image/logo.png" alt="OR Create">
             </a>
-            <nav class="nav">
-                <a href="index.html">Home</a>
-                <a href="works.html">Works</a>
-                <a href="team.html">Team</a>
-                <a href="services.html">Services</a>
-                <a href="about.html">About</a>
-                <a href="contact.html" class="active nav-cta">Contact</a>
-            </nav>
-            <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
     </header>
 
-    <!-- パララックス背景 -->
-    <div class="parallax-bg">
-        <div class="parallax-layer layer-1"></div>
-        <div class="parallax-layer layer-2"></div>
-        <div class="parallax-layer layer-3"></div>
-    </div>
+    <!-- PC版 ナビゲーションバー -->
+    <nav class="nav-pc" id="navPc">
+        <a href="index.html" class="nav-pc-logo"><img src="image/logo.png" alt="OR Create"></a>
+        <div class="nav-pc-links">
+            <a href="index.html">Home</a>
+            <a href="works.html">Works</a>
+            <a href="team.html">Team</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+    </nav>
 
     <!-- ページヘッダー -->
     <section class="page-header">
         <div class="container">
-            <h1>お問い合わせ</h1>
-            <p>楽曲制作、映像制作、美容サポートなど、お気軽にご相談ください</p>
+            <h1>Contact</h1>
+            <p>お気軽にご相談ください</p>
         </div>
     </section>
 
-    <!-- コンタクトフォーム - センター配置 -->
-    <section class="contact-section-modern">
+    <!-- フォーム -->
+    <section class="form-section bg-pattern">
         <div class="container-narrow">
-            <div class="contact-form-modern">
+            <div class="form-wrapper">
                 <form id="contactForm">
-                    <div class="form-group-modern">
-                        <label for="name">お名前 <span class="required">*</span></label>
+                    <div class="form-group">
+                        <label for="name">お名前<span class="required">*</span></label>
                         <input type="text" id="name" name="name" required placeholder="山田太郎">
                     </div>
-                    <div class="form-group-modern">
-                        <label for="email">メールアドレス <span class="required">*</span></label>
+                    <div class="form-group">
+                        <label for="email">メールアドレス<span class="required">*</span></label>
                         <input type="email" id="email" name="email" required placeholder="example@email.com">
                     </div>
-                    <div class="form-group-modern">
+                    <div class="form-group">
                         <label for="service">ご希望のサービス</label>
                         <select id="service" name="service">
                             <option value="">選択してください</option>
@@ -66,32 +235,18 @@
                             <option value="other">その他</option>
                         </select>
                     </div>
-                    <div class="form-group-modern">
-                        <label for="message">お問い合わせ内容 <span class="required">*</span></label>
+                    <div class="form-group">
+                        <label for="message">お問い合わせ内容<span class="required">*</span></label>
                         <textarea id="message" name="message" required placeholder="具体的なご要望や質問内容をご記入ください" rows="8"></textarea>
                     </div>
-                    <button type="submit" class="btn-modern btn-primary-modern btn-large btn-full">
-                        送信する
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </button>
+                    <button type="submit">送信する</button>
                 </form>
             </div>
 
             <!-- メール情報 -->
-            <div class="contact-email-box">
-                <div class="email-box-header">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                    <h3>直接メールでのお問い合わせ</h3>
-                </div>
-                <p>フォームが使いにくい場合は、直接メールでお問い合わせください</p>
-                <a href="mailto:idea.crankup@gmail.com" class="email-link">
-                    idea.crankup@gmail.com
-                </a>
+            <div class="email-info">
+                <p>フォームが使いにくい場合は、直接メールでお問い合わせください。</p>
+                <a href="mailto:idea.crankup@gmail.com">idea.crankup@gmail.com</a>
             </div>
         </div>
     </section>
@@ -131,6 +286,14 @@
         <div class="footer-bottom"><p>&copy; 2025 OR Create. All rights reserved.</p></div>
     </footer>
 
+    <script>
+const navPc = document.getElementById('navPc');
+if (navPc) {
+    window.addEventListener('scroll', () => {
+        navPc.classList.toggle('scrolled', window.scrollY > 50);
+    });
+}
+</script>
     <script src="script.js"></script>
     <script>
         // フォーム送信処理

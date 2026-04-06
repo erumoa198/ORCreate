@@ -1,0 +1,872 @@
+/* ========================================
+   Works App - Spotify/Apple Music風デザイン
+======================================== */
+
+/* ベーススタイル */
+.works-app-body {
+    font-family: "Inter", "Noto Sans JP", sans-serif;
+    min-height: 100vh;
+    background: #0a0a0a;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* メインレイアウト */
+.works-app-main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0a1a0f 0%, #0a0a0a 30%, #080808 100%);
+}
+
+/* サイドメニュー */
+.works-app-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #000;
+    padding: 16px 8px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.works-app-logo {
+    padding: 12px 16px 32px;
+}
+
+.works-app-logo a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.works-app-logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+    filter: brightness(0) invert(1);
+}
+
+.works-app-logo img:hover {
+    transform: scale(1.05);
+}
+
+/* ナビゲーション */
+.works-app-nav,
+.works-app-nav-bottom {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.works-app-nav .nav-item,
+.works-app-nav-bottom .nav-item {
+    display: block;
+}
+
+.works-app-nav .nav-item a,
+.works-app-nav-bottom .nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #b3b3b3;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 16px;
+    margin: 2px 0;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.works-app-nav .nav-item a:hover,
+.works-app-nav-bottom .nav-item a:hover {
+    color: #fff;
+}
+
+.works-app-nav .nav-item.active a {
+    color: #fff;
+    background: #282828;
+}
+
+.works-app-nav .nav-icon,
+.works-app-nav-bottom .nav-icon {
+    width: 24px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* メインコンテンツ */
+.works-app-content {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    overflow: hidden;
+    transition: grid-template-columns 0.3s ease;
+}
+
+.works-app-content.sidebar-closed {
+    grid-template-columns: 1fr 0;
+}
+
+/* 左側コンテンツ */
+.works-app-left {
+    padding: 24px 32px;
+    color: #fff;
+    overflow-y: auto;
+    height: 100vh;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.works-app-left::-webkit-scrollbar {
+    width: 8px;
+}
+
+.works-app-left::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.works-app-left::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.works-app-left h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.02em;
+}
+
+.works-app-left h1 i {
+    color: #1db954;
+    font-size: 1.3rem;
+}
+
+/* ========================================
+   Pick Up セクション
+======================================== */
+.works-pickup-section {
+    position: relative;
+    margin-bottom: 48px;
+}
+
+.works-pickup-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* スライダー */
+.works-pickup-slider {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.works-pickup-section.detail-active .works-pickup-slider {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
+}
+
+.works-app-swiper {
+    width: 100%;
+    padding: 16px 0 48px;
+}
+
+.works-app-swiper .swiper-slide {
+    position: relative;
+    width: 420px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.works-app-swiper .swiper-slide:hover {
+    transform: scale(1.02);
+}
+
+.works-app-swiper .swiper-slide img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.works-app-swiper .slide-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, 0.9) 100%);
+    border-radius: 8px;
+    padding: 24px;
+    gap: 12px;
+}
+
+.works-app-swiper .slide-overlay h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.works-app-swiper .slide-overlay button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #1db954;
+    color: #000;
+    border: none;
+    border-radius: 500px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.works-app-swiper .slide-overlay button:hover {
+    transform: scale(1.05);
+    background: #1ed760;
+}
+
+.works-app-swiper .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.works-app-swiper .swiper-pagination-bullet-active {
+    background: #1db954;
+    width: 24px;
+    border-radius: 4px;
+}
+
+/* 詳細表示（全面） */
+.works-pickup-detail {
+    display: none;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 400px;
+    animation: fadeInDetail 0.4s ease;
+}
+
+@keyframes fadeInDetail {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.works-pickup-section.detail-active .works-pickup-detail {
+    display: block;
+}
+
+.pickup-detail-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pickup-detail-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.pickup-detail-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.4);
+    transform: scale(1.2);
+}
+
+.pickup-detail-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 40px;
+    padding: 48px;
+    align-items: center;
+}
+
+.pickup-detail-image {
+    flex-shrink: 0;
+    width: 300px;
+    height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+}
+
+.pickup-detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pickup-detail-info {
+    flex: 1;
+}
+
+.pickup-detail-category {
+    display: inline-block;
+    padding: 6px 16px;
+    background: #1db954;
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 500px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+}
+
+.pickup-detail-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 8px;
+    line-height: 1.2;
+}
+
+.pickup-detail-artist {
+    font-size: 1.2rem;
+    color: #b3b3b3;
+    margin: 0 0 24px;
+}
+
+.pickup-detail-desc {
+    font-size: 1rem;
+    color: #e0e0e0;
+    line-height: 1.7;
+    margin: 0 0 32px;
+    max-width: 500px;
+}
+
+.pickup-detail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 40px;
+    background: #1db954;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 500px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.pickup-detail-btn:hover {
+    transform: scale(1.05);
+    background: #1ed760;
+}
+
+/* ========================================
+   カテゴリセクション
+======================================== */
+.works-category-section {
+    margin-bottom: 48px;
+}
+
+.works-category-container {
+    display: flex;
+    gap: 24px;
+    padding: 8px 0 16px;
+    overflow-x: auto;
+    cursor: grab;
+}
+
+.works-category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.works-category-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.works-category-img {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.works-category-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.works-category-item:hover .works-category-img img {
+    opacity: 0.7;
+}
+
+.works-category-img::after {
+    content: '\25B6';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.5);
+    color: #22c55e;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.works-category-item:hover .works-category-img::after {
+    opacity: 1;
+}
+
+.works-category-item p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    max-width: 140px;
+}
+
+/* ========================================
+   右側サイドバー
+======================================== */
+.works-app-right {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0a1a0f 0%, #121212 100%);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    transition: all 0.3s ease;
+}
+
+.works-app-right.closed {
+    width: 0;
+    min-width: 0;
+    border-left: none;
+}
+
+.works-app-right.closed > *:not(.sidebar-toggle) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sidebar-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: #22c55e;
+}
+
+.works-app-right.closed .sidebar-toggle {
+    right: 16px;
+}
+
+/* Now Playing エリア */
+.works-now-playing {
+    position: relative;
+    padding: 0;
+    background: linear-gradient(180deg, rgba(29, 185, 84, 0.3) 0%, rgba(18, 18, 18, 1) 100%);
+    min-height: 280px;
+}
+
+.works-now-playing-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.works-now-playing-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(30px) brightness(0.5);
+    transform: scale(1.2);
+}
+
+.works-now-playing-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.works-now-playing-image {
+    width: 160px;
+    height: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    margin-bottom: 20px;
+}
+
+.works-now-playing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.works-now-playing-info h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px;
+}
+
+.works-now-playing-info p {
+    font-size: 0.95rem;
+    color: #b3b3b3;
+    margin: 0 0 16px;
+}
+
+.works-now-playing-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: #1db954;
+    color: #000;
+    border: none;
+    border-radius: 500px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.works-now-playing-btn:hover {
+    transform: scale(1.05);
+    background: #1ed760;
+}
+
+/* 楽曲セレクター */
+.works-song-selector {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.works-selector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #b3b3b3;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: sticky;
+    top: 0;
+    background: #121212;
+    z-index: 5;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.works-selector-header i {
+    color: #1db954;
+}
+
+.works-song-item {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.works-song-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.works-song-item.active {
+    background: rgba(29, 185, 84, 0.15);
+    border-left-color: #1db954;
+}
+
+.works-song-item-img {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.works-song-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.works-song-item-img .overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 1.2rem;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.works-song-item:hover .works-song-item-img .overlay,
+.works-song-item.active .works-song-item-img .overlay {
+    opacity: 1;
+}
+
+.works-song-item.active .works-song-item-img .overlay {
+    background: rgba(29, 185, 84, 0.7);
+}
+
+.works-song-item-info {
+    overflow: hidden;
+    min-width: 0;
+}
+
+.works-song-item-info h3 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #fff;
+    margin: 0 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.works-song-item.active .works-song-item-info h3 {
+    color: #1db954;
+}
+
+.works-song-item-info p {
+    font-size: 0.8rem;
+    color: #b3b3b3;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.works-song-item-number {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #b3b3b3;
+    width: 28px;
+    text-align: center;
+}
+
+.works-song-item.active .works-song-item-number {
+    color: #1db954;
+}
+
+/* コンテナ共通 */
+.containers {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.containers::-webkit-scrollbar {
+    height: 8px;
+}
+
+.containers::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* ========================================
+   レスポンシブ
+======================================== */
+@media (max-width: 1400px) {
+    .works-app-main {
+        grid-template-columns: 220px 1fr;
+    }
+
+    .works-app-content {
+        grid-template-columns: 1fr 340px;
+    }
+
+    .works-app-swiper .swiper-slide {
+        width: 360px;
+    }
+
+    .pickup-detail-content {
+        padding: 32px;
+        gap: 32px;
+    }
+
+    .pickup-detail-image {
+        width: 240px;
+        height: 240px;
+    }
+
+    .pickup-detail-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .works-app-main {
+        grid-template-columns: 72px 1fr;
+    }
+
+    .works-app-nav .nav-text,
+    .works-app-nav-bottom .nav-text {
+        display: none;
+    }
+
+    .works-app-logo {
+        padding: 8px;
+    }
+
+    .works-app-logo img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .works-app-nav .nav-item a,
+    .works-app-nav-bottom .nav-item a {
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .works-app-content {
+        grid-template-columns: 1fr 320px;
+    }
+
+    .pickup-detail-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pickup-detail-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .pickup-detail-desc {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .works-app-content {
+        grid-template-columns: 1fr;
+    }
+
+    .works-app-right {
+        display: none;
+    }
+
+    .works-app-left {
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .works-app-main {
+        grid-template-columns: 1fr;
+    }
+
+    .works-app-menu {
+        display: none;
+    }
+
+    .works-app-left {
+        padding: 20px 16px;
+    }
+
+    .works-category-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .pickup-detail-content {
+        padding: 24px 16px;
+    }
+
+    .pickup-detail-image {
+        width: 160px;
+        height: 160px;
+    }
+
+    .pickup-detail-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* worksページではnav-pcを非表示（サイドメニューがあるため） */
+.works-app-body .nav-pc {
+    display: none;
+}

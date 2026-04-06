@@ -5,28 +5,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チームメンバー | OR Create</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav-pc.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    body { background: #0c0c0c; }
+    .page-header {
+        padding: 160px 0 80px;
+        background: #0c0c0c;
+        text-align: center;
+    }
+    .page-header h1 {
+        font-family: 'Shippori Mincho', serif;
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 700;
+    }
+    .page-header p {
+        color: rgba(255,255,255,0.5);
+        font-size: 1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .team-detail-section { padding: 60px 0 120px; }
+    .member-detail-card {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 4rem;
+        margin-bottom: 120px;
+        align-items: start;
+    }
+    .member-detail-card:nth-child(even) {
+        direction: rtl;
+    }
+    .member-detail-card:nth-child(even) > * {
+        direction: ltr;
+    }
+    .member-detail-visual {
+        max-height: 450px;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+    }
+    .member-detail-visual .member-bg-text { display: none; }
+    .member-detail-visual .member-detail-badge {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        color: rgba(255,255,255,0.8);
+        background: rgba(0,0,0,0.6);
+        padding: 0.4rem 0.8rem;
+        backdrop-filter: blur(4px);
+    }
+    .member-detail-content h2 {
+        font-family: 'Shippori Mincho', serif;
+        font-size: clamp(2rem, 4vw, 2.5rem);
+        margin-bottom: 0.5rem;
+    }
+    .member-role-large {
+        color: rgba(255,255,255,0.5);
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+    .member-bio-section { margin-bottom: 2rem; }
+    .member-bio-section h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #22c55e;
+    }
+    .member-bio-section h4 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin: 1.5rem 0 0.5rem;
+    }
+    .member-bio-section p {
+        color: rgba(255,255,255,0.7);
+        line-height: 1.9;
+        font-size: 0.95rem;
+    }
+    .achievement-list {
+        color: rgba(255,255,255,0.6);
+        font-size: 0.9rem;
+        line-height: 2;
+        padding-left: 1.5rem;
+    }
+    .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .skill-tag {
+        padding: 0.4rem 1rem;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        font-size: 0.8rem;
+        color: rgba(255,255,255,0.6);
+    }
+    .member-social {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 2rem;
+    }
+    .social-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+    }
+    .social-btn:hover {
+        border-color: #22c55e;
+        color: #22c55e;
+    }
+    @media (max-width: 768px) {
+        .member-detail-card {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .member-detail-card:nth-child(even) { direction: ltr; }
+        .member-detail-visual { max-height: 350px; }
+    }
+</style>
 </head>
 <body>
-    <!-- ヘッダー -->
-    <header class="header" id="header">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon"><img src="image/logo.png" alt="OR Create"></div>
+    <!-- カーブメニュー -->
+    <div id="curveMenu">
+        <div class="hamburger-curve">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="menu-inner-curve">
+            <div class="menu-logo">
+                <img src="image/logo.png" alt="OR Create">
                 <span>OR Create</span>
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="team.html" class="active">Team</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <svg version="1.1" id="blob" xmlns="http://www.w3.org/2000/svg">
+            <path id="blob-path" d="M60,500H0V0h60c0,0,20,172,20,250S60,900,60,500z"/>
+        </svg>
+    </div>
+
+    <!-- トップバー（ロゴのみ） -->
+    <header class="header-minimal" id="header">
+        <div class="container">
+            <a href="index.html" class="logo-minimal">
+                <img src="image/logo.png" alt="OR Create">
             </a>
-            <nav class="nav">
-                <a href="index.html">Home</a>
-                <a href="works.html">Works</a>
-                <a href="team.html" class="active">Team</a>
-                <a href="services.html">Services</a>
-                <a href="about.html">About</a>
-                <a href="contact.html" class="nav-cta">Contact</a>
-            </nav>
-            <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
     </header>
+
+    <!-- PC版 ナビゲーションバー -->
+    <nav class="nav-pc" id="navPc">
+        <a href="index.html" class="nav-pc-logo"><img src="image/logo.png" alt="OR Create"></a>
+        <div class="nav-pc-links">
+            <a href="index.html">Home</a>
+            <a href="works.html">Works</a>
+            <a href="team.html" class="active">Team</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
 
     <!-- パララックス背景 -->
     <div class="parallax-bg">
@@ -38,7 +193,7 @@
     <!-- ページヘッダー -->
     <section class="page-header">
         <div class="container">
-            <h1>プロフェッショナルチーム</h1>
+            <h1>CREATORS</h1>
             <p>メジャー実績を持つクリエイターが、あなたのプロジェクトをサポートします</p>
         </div>
     </section>
@@ -95,7 +250,7 @@
 
             <!-- つちやみさと -->
             <div id="tsuchiya" class="member-detail-card" style="scroll-margin-top: 100px;">
-                <div class="member-detail-visual" style="background: url('image/MISATO.png') center/cover;">
+                <div class="member-detail-visual misato-detail" style="background: url('image/MISATO.png') center 30%/cover no-repeat;">
                     <div class="member-bg-text">CREATOR • GUITARIST • MUSIC • ARTIST •</div>
                     <div class="member-detail-badge">Creator / Guitarist</div>
                 </div>
@@ -122,6 +277,9 @@
                             <li>天音かなた / DA・LI・LA - ホロライブVTuberへの楽曲提供</li>
                             <li>高橋ポルカ / オドルポルカ - ラブライブ！楽曲提供</li>
                             <li>CUBERS、あんさんぶるスターズ、ENJIN など多数</li>
+                            <li>Gray Sheep / GOAT - Colors Of You（編曲）</li>
+                            <li>YuMe - Wedding Bell（編曲）</li>
+                            <li>May'n / LOVE IS THE STRONGEST - 『超宇宙刑事ギャバン インフィニティ』（テレビ朝日系）主題歌の編曲を担当</li>
                             <li>tiit tokyo ファッションショー音楽制作</li>
                         </ul>
 
@@ -148,10 +306,6 @@
                         <a href="https://www.instagram.com/tsuchiya_qyoto/?hl=ja" target="_blank" class="social-btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                             Instagram
-                        </a>
-                        <a href="input/つちやみさと_Portfolio.pdf" target="_blank" class="social-btn btn-portfolio">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                            Portfolio PDF
                         </a>
                     </div>
                 </div>
@@ -210,6 +364,14 @@
         <div class="footer-bottom"><p>&copy; 2025 OR Create. All rights reserved.</p></div>
     </footer>
 
+    <script>
+const navPc = document.getElementById('navPc');
+if (navPc) {
+    window.addEventListener('scroll', () => {
+        navPc.classList.toggle('scrolled', window.scrollY > 50);
+    });
+}
+</script>
     <script src="script.js"></script>
 </body>
 </html>

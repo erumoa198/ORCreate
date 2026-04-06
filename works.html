@@ -5,439 +5,546 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Works | OR Create</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="works-app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
-<body>
-    <!-- ヘッダー -->
-    <header class="header" id="header">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon"><img src="image/logo.png" alt="OR Create"></div>
-                <span>OR Create</span>
-            </a>
-            <nav class="nav">
-                <a href="index.html">Home</a>
-                <a href="works.html" class="active">Works</a>
-                <a href="team.html">Team</a>
-                <a href="services.html">Services</a>
-                <a href="about.html">About</a>
-                <a href="contact.html" class="nav-cta">Contact</a>
-            </nav>
-            <button class="menu-toggle" id="menuToggle">☰</button>
+<body class="works-app-body">
+    <!-- カーブメニュー -->
+    <div id="curveMenu">
+        <div class="hamburger-curve">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
         </div>
-    </header>
-
-    <!-- パララックス背景レイヤー -->
-    <div class="parallax-bg">
-        <div class="parallax-layer layer-1"></div>
-        <div class="parallax-layer layer-2"></div>
-        <div class="parallax-layer layer-3"></div>
+        <div class="menu-inner-curve">
+            <div class="menu-logo">
+                <img src="image/logo.png" alt="OR Create">
+                <span>OR Create</span>
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="works.html" class="active">Works</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <svg version="1.1" id="blob" xmlns="http://www.w3.org/2000/svg">
+            <path id="blob-path" d="M60,500H0V0h60c0,0,20,172,20,250S60,900,60,500z"/>
+        </svg>
     </div>
 
-    <!-- ページヒーロー -->
-    <section class="page-hero">
-        <div class="container">
-            <div class="page-hero-content">
-                <span class="label-modern">Our Works</span>
-                <h1>実績紹介</h1>
-                <p>Creative / Music / Beauty の3つの軸で、多数のプロジェクトを手がけています。</p>
-            </div>
+    <!-- PC版ナビバー -->
+    <nav class="nav-pc" id="navPc">
+        <a href="index.html" class="nav-pc-logo"><img src="image/logo.png" alt="OR Create"></a>
+        <div class="nav-pc-links">
+            <a href="index.html">Home</a>
+            <a href="works.html" class="active">Works</a>
+            <a href="team.html">Team</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
         </div>
-    </section>
+    </nav>
 
-    <!-- フィルターボタン -->
-    <section class="works-filter-section">
-        <div class="container">
-            <div class="works-filter-buttons">
-                <button class="filter-btn active" data-category="all">All</button>
-                <button class="filter-btn" data-category="music">Music</button>
-                <button class="filter-btn" data-category="creative">Creative</button>
-                <button class="filter-btn" data-category="beauty">Beauty</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Works by Genre -->
-    <section class="works-by-genre">
-        <div class="container">
-            <!-- Music Section -->
-            <div class="genre-section" data-category="music">
-                <div class="genre-header">
-                    <div class="genre-header-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                        <h2>Music</h2>
-                        <span class="genre-count">12 works</span>
-                    </div>
-                    <p class="genre-description">メジャーアーティスト、VTuber、アニメタイアップなど多数の楽曲制作実績</p>
-                </div>
-                <div class="works-grid-album">
-                <div class="album-card" data-category="music" data-youtube="6Y92rqcUMJk">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt="JO1" onerror="this.src='https://img.youtube.com/vi/6Y92rqcUMJk/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>JOin us!!</h4>
-                        <p>JO1</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="gCx5wexZi-U">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt="高橋ポルカ(綾咲穂音) from いきづらい部！" onerror="this.src='https://img.youtube.com/vi/gCx5wexZi-U/0.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>オドルポルカ</h4>
-                        <p>高橋ポルカ(綾咲穂音) from いきづらい部！</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="4qHnXDyVcYg">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="天音かなた" onerror="this.src='https://img.youtube.com/vi/4qHnXDyVcYg/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>DA・LI・LA</h4>
-                        <p>天音かなた</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="0q3ee9a9-Ic">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" alt="Knight A" onerror="this.src='https://img.youtube.com/vi/0q3ee9a9-Ic/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>One Night Love</h4>
-                        <p>Knight A</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="hfQuBmxV-zo">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt="CUBERS" onerror="this.src='https://img.youtube.com/vi/hfQuBmxV-zo/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>CHOICE</h4>
-                        <p>CUBERS</p>
-                    </div>
-                </div>
-
-                <a href="https://ensemble-stars.jp/discography/musicdetails/ixrj9_w5nufl" target="_blank" class="album-card" data-category="music">
-                    <div class="album-cover">
-                        <img src="image/Music.png" alt="あんさんぶるスターズ">
-                        <div class="album-play-overlay"><span class="play-icon">🔗</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>Boku Sketch</h4>
-                        <p>あんさんぶるスターズ</p>
-                    </div>
-                </a>
-
-                <div class="album-card" data-category="music" data-youtube="STdMMPVt6jI">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" alt="JamsCollection" onerror="this.src='https://img.youtube.com/vi/STdMMPVt6jI/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>Xの方程式</h4>
-                        <p>JamsCollection</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="vJPPAR2Z8i8">
-                    <div class="album-cover">
-                        <img src="image/Music.png" alt="suga/es">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>プレイリスト</h4>
-                        <p>suga/es</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="qAHec3JKNME">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" alt="ENJIN" onerror="this.src='https://img.youtube.com/vi/qAHec3JKNME/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>Nonagonism</h4>
-                        <p>ENJIN</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="QTQa0368H1I">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/QTQa0368H1I/maxresdefault.jpg" alt="tiit tokyo SS" onerror="this.src='https://img.youtube.com/vi/QTQa0368H1I/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>DREAMERS</h4>
-                        <p>tiit tokyo SS</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="music" data-youtube="ZuFiV403f6k">
-                    <div class="album-cover">
-                        <img src="https://img.youtube.com/vi/ZuFiV403f6k/maxresdefault.jpg" alt="tiit tokyo AW" onerror="this.src='https://img.youtube.com/vi/ZuFiV403f6k/hqdefault.jpg'">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>unlikely journey</h4>
-                        <p>tiit tokyo AW</p>
-                    </div>
-                </div>
-
-                <a href="https://bisongames-hf.com/app/flyflyfly/" target="_blank" class="album-card" data-category="music">
-                    <div class="album-cover">
-                        <img src="image/Music.png" alt="オリックス・バファローズ">
-                        <div class="album-play-overlay"><span class="play-icon">🎮</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>ゲームアプリBGM</h4>
-                        <p>オリックス・バファローズ</p>
-                    </div>
-                </a>
-                </div>
-            </div>
-
-            <!-- Creative Section -->
-            <div class="genre-section" data-category="creative">
-                <div class="genre-header">
-                    <div class="genre-header-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></svg>
-                        <h2>Creative</h2>
-                        <span class="genre-count">12 works</span>
-                    </div>
-                    <p class="genre-description">企業VP、MV、広告映像、イベント企画など幅広いクリエイティブ制作</p>
-                </div>
-                <div class="works-grid-album">
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/isk.png" alt="石原産業">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>研修用映像</h4>
-                        <p>石原産業様</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/inst.png" alt="大阪市北区">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>コンテスト受賞映像</h4>
-                        <p>大阪市北区</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="トンボリステーション">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>企業広告映像</h4>
-                        <p>トンボリステーション</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="車販売店">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>海外イベント用映像</h4>
-                        <p>車販売店</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="MV撮影">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>MV撮影</h4>
-                        <p>アーティスト各種</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/kansai.png" alt="関西コレクション">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>デジタルサイネージ映像</h4>
-                        <p>KANSAI COLLECTION</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="専門学校">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>Webマーケティング</h4>
-                        <p>専門学校</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="LP制作">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>LP制作</h4>
-                        <p>各種企業・サービス</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="結婚式用映像制作">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>結婚式用映像制作</h4>
-                        <p>ウェディング</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="店舗・宣材写真撮影">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>店舗・宣材写真撮影</h4>
-                        <p>各種企業・タレント</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="大型結婚式二次会企画">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>大型結婚式二次会企画/制作</h4>
-                        <p>ウェディングイベント</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="creative">
-                    <div class="album-cover">
-                        <img src="image/Creative.png" alt="企業表彰イベント">
-                        <div class="album-play-overlay"><span class="play-icon">▶</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>企業表彰イベント企画/制作</h4>
-                        <p>各種企業</p>
-                    </div>
-                </div>
-                </div>
-            </div>
-
-            <!-- Beauty Section -->
-            <div class="genre-section" data-category="beauty">
-                <div class="genre-header">
-                    <div class="genre-header-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                        <h2>Beauty</h2>
-                        <span class="genre-count">2 works</span>
-                    </div>
-                    <p class="genre-description">大型イベント出展、サロン運営支援など美容分野での総合サポート</p>
-                </div>
-                <div class="works-grid-album">
-                <div class="album-card" data-category="beauty">
-                    <div class="album-cover">
-                        <img src="image/Beauty.png" alt="KANSAI COLLECTION">
-                        <div class="album-play-overlay"><span class="play-icon">✨</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>KANSAI COLLECTION 2025 A/W</h4>
-                        <p>大型ファッションイベント出展</p>
-                    </div>
-                </div>
-
-                <div class="album-card" data-category="beauty">
-                    <div class="album-cover">
-                        <img src="image/Beauty.png" alt="サロン運営支援">
-                        <div class="album-play-overlay"><span class="play-icon">✨</span></div>
-                    </div>
-                    <div class="album-info">
-                        <h4>サロン運営支援</h4>
-                        <p>複数店舗サポート</p>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-modern">
-        <div class="container">
-            <div class="cta-content-modern">
-                <h2>あなたのプロジェクトも、<br>私たちにお任せください</h2>
-                <p>楽曲制作、映像制作、美容サポート。まずはお気軽にご相談ください。</p>
-                <a href="contact.html" class="btn-modern btn-primary-modern btn-large">
-                    お問い合わせ
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- フッター -->
-    <footer class="footer">
-        <div class="container footer-grid">
+    <!-- 音楽アプリ風レイアウト -->
+    <main class="works-app-main">
+        <!-- サイドメニュー -->
+        <nav class="works-app-menu">
             <div>
-                <h3>OR Create</h3>
-                <p>Creative / Music / Beauty の3軸で、包括的なクリエイティブサービスを提供するチームです。</p>
-            </div>
-            <div>
-                <h4>Pages</h4>
-                <ul>
-                    <li><a href="works.html">Works</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="about.html">About</a></li>
+                <div class="works-app-logo">
+                    <a href="index.html">
+                        <img src="image/logo.png" alt="OR Create">
+                    </a>
+                </div>
+                <ul class="works-app-nav">
+                    <li class="nav-item">
+                        <a href="index.html">
+                            <i class="fa fa-home nav-icon"></i>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="works.html">
+                            <i class="fa fa-compact-disc nav-icon"></i>
+                            <span class="nav-text">Works</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="team.html">
+                            <i class="fa fa-users nav-icon"></i>
+                            <span class="nav-text">Team</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="services.html">
+                            <i class="fa fa-star nav-icon"></i>
+                            <span class="nav-text">Services</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html">
+                            <i class="fa fa-info-circle nav-icon"></i>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
-            <div>
-                <h4>Services</h4>
-                <ul>
-                    <li><a href="services.html#creative">Creative</a></li>
-                    <li><a href="services.html#music">Music</a></li>
-                    <li><a href="services.html#beauty">Beauty</a></li>
-                </ul>
+            <ul class="works-app-nav-bottom">
+                <li class="nav-item">
+                    <a href="contact.html">
+                        <i class="fa fa-envelope nav-icon"></i>
+                        <span class="nav-text">Contact</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- メインコンテンツ -->
+        <section class="works-app-content">
+            <!-- 左側コンテンツ -->
+            <div class="works-app-left">
+                <!-- Pick Up セクション（選択時に全面表示） -->
+                <div class="works-pickup-section" id="pickupSection">
+                    <div class="works-pickup-header">
+                        <h1>Pick Up Works</h1>
+                    </div>
+
+                    <!-- 通常時: スライダー表示 -->
+                    <div class="works-pickup-slider" id="pickupSlider">
+                        <div class="swiper works-app-swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" data-youtube="AWkprykWHEo">
+                                    <img src="image/graysheep.jpg" alt="Gray Sheep / GOAT">
+                                    <div class="slide-overlay">
+                                        <h2>Gray Sheep / GOAT - Colors Of You</h2>
+                                        <button>
+                                            Watch Now <i class="fa-solid fa-circle-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" data-youtube="UEquvZ9SHUI">
+                                    <img src="image/loveisthestrongest.jpg" alt="May'n">
+                                    <div class="slide-overlay">
+                                        <h2>May'n - LOVE IS THE STRONGEST</h2>
+                                        <button>
+                                            Watch Now <i class="fa-solid fa-circle-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" data-youtube="XePuD957Wdk">
+                                    <img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt="YuMe" onerror="this.src='https://img.youtube.com/vi/XePuD957Wdk/hqdefault.jpg'">
+                                    <div class="slide-overlay">
+                                        <h2>YuMe - Wedding Bell</h2>
+                                        <button>
+                                            Watch Now <i class="fa-solid fa-circle-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" data-youtube="6Y92rqcUMJk">
+                                    <img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt="JO1" onerror="this.src='https://img.youtube.com/vi/6Y92rqcUMJk/hqdefault.jpg'">
+                                    <div class="slide-overlay">
+                                        <h2>JO1 - JOin us!!</h2>
+                                        <button>
+                                            Watch Now <i class="fa-solid fa-circle-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" data-youtube="4qHnXDyVcYg">
+                                    <img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="天音かなた" onerror="this.src='https://img.youtube.com/vi/4qHnXDyVcYg/hqdefault.jpg'">
+                                    <div class="slide-overlay">
+                                        <h2>天音かなた - DA・LI・LA</h2>
+                                        <button>
+                                            Watch Now <i class="fa-solid fa-circle-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+
+                    <!-- 選択時: 全面詳細表示 -->
+                    <div class="works-pickup-detail" id="pickupDetail">
+                        <button class="pickup-detail-close" id="pickupDetailClose">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <div class="pickup-detail-bg" id="pickupDetailBg"></div>
+                        <div class="pickup-detail-content">
+                            <div class="pickup-detail-image" id="pickupDetailImage">
+                                <img src="" alt="">
+                            </div>
+                            <div class="pickup-detail-info">
+                                <span class="pickup-detail-category" id="pickupDetailCategory">Music</span>
+                                <h2 class="pickup-detail-title" id="pickupDetailTitle">タイトル</h2>
+                                <p class="pickup-detail-artist" id="pickupDetailArtist">アーティスト</p>
+                                <p class="pickup-detail-desc" id="pickupDetailDesc">作品の詳細説明がここに入ります。</p>
+                                <a href="#" class="pickup-detail-btn" id="pickupDetailBtn" target="_blank">
+                                    <i class="fa-solid fa-play"></i> Watch Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- カテゴリ: Music -->
+                <div class="works-category-section">
+                    <h1><i class="fa fa-music"></i> Music</h1>
+                    <div class="works-category-container containers">
+                        <div class="works-category-item" data-youtube="AWkprykWHEo" data-title="Colors Of You" data-artist="Gray Sheep / GOAT" data-category="Music" data-desc="Gray Sheep / GOATへの編曲。SNOW cv.山下誠一郎、COLOR cv.伊東健人、NURSE cv.阿座上洋平、SPIDER cv.坂田将吾、JOE cv.橘龍丸、OWL cv.堀江瞬。" data-img="image/graysheep.jpg">
+                            <div class="works-category-img"><img src="image/graysheep.jpg" alt="Gray Sheep / GOAT"></div>
+                            <p>Gray Sheep / GOAT</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="UEquvZ9SHUI" data-title="LOVE IS THE STRONGEST" data-artist="May'n" data-category="Music" data-desc="May'nへの編曲。『超宇宙刑事ギャバン インフィニティ』主題歌。" data-img="image/loveisthestrongest.jpg">
+                            <div class="works-category-img"><img src="image/loveisthestrongest.jpg" alt="May'n"></div>
+                            <p>May'n</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="XePuD957Wdk" data-title="Wedding Bell" data-artist="YuMe" data-category="Music" data-desc="YuMeへの編曲。" data-img="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt="YuMe" onerror="this.src='https://img.youtube.com/vi/XePuD957Wdk/hqdefault.jpg'"></div>
+                            <p>YuMe</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="6Y92rqcUMJk" data-title="JOin us!!" data-artist="JO1" data-category="Music" data-desc="JO1への楽曲提供。" data-img="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt="JO1" onerror="this.src='https://img.youtube.com/vi/6Y92rqcUMJk/hqdefault.jpg'"></div>
+                            <p>JO1</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="4qHnXDyVcYg" data-title="DA・LI・LA" data-artist="天音かなた" data-category="Music" data-desc="天音かなたへの楽曲提供。" data-img="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="天音かなた" onerror="this.src='https://img.youtube.com/vi/4qHnXDyVcYg/hqdefault.jpg'"></div>
+                            <p>天音かなた</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="gCx5wexZi-U" data-title="オドルポルカ" data-artist="高橋ポルカ (from いきづらい部)" data-category="Music" data-desc="高橋ポルカへの楽曲提供。" data-img="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt="高橋ポルカ" onerror="this.src='https://img.youtube.com/vi/gCx5wexZi-U/hqdefault.jpg'"></div>
+                            <p>高橋ポルカ</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="0q3ee9a9-Ic" data-title="One Night Love" data-artist="Knight A" data-category="Music" data-desc="Knight Aへの楽曲提供。" data-img="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" alt="Knight A" onerror="this.src='https://img.youtube.com/vi/0q3ee9a9-Ic/hqdefault.jpg'"></div>
+                            <p>Knight A</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="hfQuBmxV-zo" data-title="CHOICE" data-artist="CUBERS" data-category="Music" data-desc="CUBERSへの楽曲提供。" data-img="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt="CUBERS" onerror="this.src='https://img.youtube.com/vi/hfQuBmxV-zo/hqdefault.jpg'"></div>
+                            <p>CUBERS</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="STdMMPVt6jI" data-title="Xの方程式" data-artist="JamsCollection" data-category="Music" data-desc="JamsCollectionへの楽曲提供。" data-img="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" alt="JamsCollection" onerror="this.src='https://img.youtube.com/vi/STdMMPVt6jI/hqdefault.jpg'"></div>
+                            <p>JamsCollection</p>
+                        </div>
+                        <div class="works-category-item" data-link="https://ensemble-stars.jp/discography/musicdetails/ixrj9_w5nufl" data-title="Boku Sketch" data-artist="あんさんぶるスターズ" data-category="Music" data-desc="あんさんぶるスターズへの楽曲提供。" data-img="image/Music.png">
+                            <div class="works-category-img"><img src="image/Music.png" alt="あんさんぶるスターズ"></div>
+                            <p>Boku Sketch</p>
+                        </div>
+                        <div class="works-category-item" data-link="https://open.spotify.com/intl-ja/album/3OoOCqBsmJ8TU58gKLJDIq" data-title="プレイリスト" data-artist="suga/es" data-category="Music" data-desc="suga/esへの楽曲提供。" data-img="image/Music.png">
+                            <div class="works-category-img"><img src="image/Music.png" alt="suga/es"></div>
+                            <p>プレイリスト</p>
+                        </div>
+                        <div class="works-category-item" data-youtube="qAHec3JKNME" data-title="Nonagonism" data-artist="ENJIN" data-category="Music" data-desc="ENJINへの楽曲提供。" data-img="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg">
+                            <div class="works-category-img"><img src="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" alt="ENJIN" onerror="this.src='https://img.youtube.com/vi/qAHec3JKNME/hqdefault.jpg'"></div>
+                            <p>ENJIN</p>
+                        </div>
+                        <div class="works-category-item" data-title="DREAMERS" data-artist="tiit tokyo SS" data-category="Music" data-desc="tiit tokyo SSファッションショー用楽曲制作。" data-img="image/Music.png">
+                            <div class="works-category-img"><img src="image/Music.png" alt="tiit tokyo SS"></div>
+                            <p>DREAMERS</p>
+                        </div>
+                        <div class="works-category-item" data-title="unlikely journey" data-artist="tiit tokyo AW" data-category="Music" data-desc="tiit tokyo AWファッションショー用楽曲制作。" data-img="image/Music.png">
+                            <div class="works-category-img"><img src="image/Music.png" alt="tiit tokyo AW"></div>
+                            <p>unlikely journey</p>
+                        </div>
+                        <div class="works-category-item" data-title="ゲームアプリBGM" data-artist="オリックス・バファローズ" data-category="Music" data-desc="オリックス・バファローズ公式アプリ用BGM制作。" data-img="image/Music.png">
+                            <div class="works-category-img"><img src="image/Music.png" alt="オリックス・バファローズ"></div>
+                            <p>ゲームアプリBGM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- カテゴリ: Creative -->
+                <div class="works-category-section">
+                    <h1><i class="fa fa-film"></i> Creative</h1>
+                    <div class="works-category-container containers">
+                        <div class="works-category-item" data-title="研修用映像" data-artist="石原産業様" data-category="Creative" data-desc="企業向け研修用映像の企画・制作。社員教育に活用される高品質な映像コンテンツ。" data-img="image/isk.png">
+                            <div class="works-category-img"><img src="image/isk.png" alt="石原産業"></div>
+                            <p>石原産業</p>
+                        </div>
+                        <div class="works-category-item" data-title="コンテスト受賞映像" data-artist="大阪市北区" data-category="Creative" data-desc="大阪市北区主催のコンテストで受賞した映像作品。" data-img="image/inst.png">
+                            <div class="works-category-img"><img src="image/inst.png" alt="大阪市北区"></div>
+                            <p>大阪市北区</p>
+                        </div>
+                        <div class="works-category-item" data-title="企業広告映像" data-artist="トンボリステーション" data-category="Creative" data-desc="道頓堀の商業施設向け広告映像制作。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="トンボリステーション"></div>
+                            <p>トンボリステーション</p>
+                        </div>
+                        <div class="works-category-item" data-title="デジタルサイネージ映像" data-artist="KANSAI COLLECTION" data-category="Creative" data-desc="関西コレクション会場で使用されるデジタルサイネージ映像の制作。" data-img="image/kansai.png">
+                            <div class="works-category-img"><img src="image/kansai.png" alt="関西コレクション"></div>
+                            <p>KANSAI COLLECTION</p>
+                        </div>
+                        <div class="works-category-item" data-title="海外イベント用映像" data-artist="海外展示会" data-category="Creative" data-desc="海外イベント・展示会向けのプロモーション映像制作。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="海外イベント用映像"></div>
+                            <p>海外イベント用映像</p>
+                        </div>
+                        <div class="works-category-item" data-title="MV撮影" data-artist="アーティスト各種" data-category="Creative" data-desc="アーティストのミュージックビデオ撮影・編集。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="MV撮影"></div>
+                            <p>MV撮影</p>
+                        </div>
+                        <div class="works-category-item" data-title="Webマーケティング" data-artist="各種クライアント" data-category="Creative" data-desc="SEO対策・広告運用・SNS運用などのWebマーケティング支援。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="Webマーケティング"></div>
+                            <p>Webマーケティング</p>
+                        </div>
+                        <div class="works-category-item" data-title="LP制作" data-artist="各種クライアント" data-category="Creative" data-desc="コンバージョン率の高いランディングページの企画・制作。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="LP制作"></div>
+                            <p>LP制作</p>
+                        </div>
+                        <div class="works-category-item" data-title="結婚式用映像制作" data-artist="ウェディング" data-category="Creative" data-desc="プロフィールムービー・オープニング映像など結婚式用映像の制作。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="結婚式用映像制作"></div>
+                            <p>結婚式用映像制作</p>
+                        </div>
+                        <div class="works-category-item" data-title="店舗・宣材写真撮影" data-artist="各種店舗" data-category="Creative" data-desc="店舗の内観・外観や宣材写真の撮影・編集。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="店舗・宣材写真撮影"></div>
+                            <p>店舗・宣材写真撮影</p>
+                        </div>
+                        <div class="works-category-item" data-title="大型結婚式二次会企画/制作" data-artist="イベント企画" data-category="Creative" data-desc="大型の結婚式二次会イベントの企画・演出・映像制作。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="大型結婚式二次会企画/制作"></div>
+                            <p>大型結婚式二次会</p>
+                        </div>
+                        <div class="works-category-item" data-title="企業表彰イベント企画/制作" data-artist="企業イベント" data-category="Creative" data-desc="企業の表彰式・社内イベントの企画・演出・映像制作。" data-img="image/Creative.png">
+                            <div class="works-category-img"><img src="image/Creative.png" alt="企業表彰イベント企画/制作"></div>
+                            <p>企業表彰イベント</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- カテゴリ: Beauty -->
+                <div class="works-category-section">
+                    <h1><i class="fa fa-sparkles"></i> Beauty</h1>
+                    <div class="works-category-container containers">
+                        <div class="works-category-item" data-title="KANSAI COLLECTION 2025 A/W" data-artist="出演者専用ブース" data-category="Beauty" data-desc="関西最大級のファッションイベントKANSAI COLLECTIONにて出演者専用ブースを担当。タレント・モデルの施術を提供。" data-img="image/Beauty.png">
+                            <div class="works-category-img"><img src="image/Beauty.png" alt="KANSAI COLLECTION"></div>
+                            <p>KANSAI COLLECTION</p>
+                        </div>
+                        <div class="works-category-item" data-title="サロン運営支援" data-artist="複数店舗サポート" data-category="Beauty" data-desc="美容サロンの運営支援・コンサルティング。店舗の収益改善やスタッフ教育をサポート。" data-img="image/Beauty.png">
+                            <div class="works-category-img"><img src="image/Beauty.png" alt="サロン運営支援"></div>
+                            <p>サロン運営支援</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="contact.html">お問い合わせ</a></li>
-                    <li><a href="mailto:idea.crankup@gmail.com">Email</a></li>
-                </ul>
+
+            <!-- 右側サイドバー（トグル可能） -->
+            <div class="works-app-right" id="worksSidebar">
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fa fa-times"></i>
+                </button>
+
+                <!-- 選択中のアイテム表示（Now Playing風） -->
+                <div class="works-now-playing" id="nowPlaying">
+                    <div class="works-now-playing-bg">
+                        <img src="image/graysheep.jpg" alt="背景" id="nowPlayingBg">
+                    </div>
+                    <div class="works-now-playing-content">
+                        <div class="works-now-playing-image">
+                            <img src="image/graysheep.jpg" alt="Gray Sheep / GOAT" id="nowPlayingImg">
+                        </div>
+                        <div class="works-now-playing-info">
+                            <h2 id="nowPlayingTitle">Colors Of You</h2>
+                            <p id="nowPlayingArtist">Gray Sheep / GOAT</p>
+                            <button class="works-now-playing-btn" id="nowPlayingBtn" data-youtube="AWkprykWHEo">
+                                <i class="fa-solid fa-play"></i> Watch Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 楽曲セレクター -->
+                <div class="works-song-selector">
+                    <div class="works-selector-header">
+                        <i class="fa fa-music"></i> Music
+                    </div>
+
+                    <!-- Music（新しい順） -->
+                    <div class="works-song-item active" data-youtube="AWkprykWHEo" data-title="Colors Of You" data-artist="Gray Sheep / GOAT" data-img="image/graysheep.jpg" data-category="Music" data-desc="Gray Sheep / GOATへの編曲。SNOW cv.山下誠一郎、COLOR cv.伊東健人、NURSE cv.阿座上洋平、SPIDER cv.坂田将吾、JOE cv.橘龍丸、OWL cv.堀江瞬。">
+                        <div class="works-song-item-img">
+                            <img src="image/graysheep.jpg" alt="Gray Sheep / GOAT">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>Colors Of You</h3>
+                            <p>Gray Sheep / GOAT</p>
+                        </div>
+                        <div class="works-song-item-number">01</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="UEquvZ9SHUI" data-title="LOVE IS THE STRONGEST" data-artist="May'n" data-img="image/loveisthestrongest.jpg" data-category="Music" data-desc="May'nへの編曲。『超宇宙刑事ギャバン インフィニティ』主題歌。">
+                        <div class="works-song-item-img">
+                            <img src="image/loveisthestrongest.jpg" alt="May'n">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>LOVE IS THE STRONGEST</h3>
+                            <p>May'n</p>
+                        </div>
+                        <div class="works-song-item-number">02</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="XePuD957Wdk" data-title="Wedding Bell" data-artist="YuMe" data-img="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" data-category="Music" data-desc="YuMeへの編曲。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt="YuMe" onerror="this.src='https://img.youtube.com/vi/XePuD957Wdk/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>Wedding Bell</h3>
+                            <p>YuMe</p>
+                        </div>
+                        <div class="works-song-item-number">03</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="6Y92rqcUMJk" data-title="JOin us!!" data-artist="JO1" data-img="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" data-category="Music" data-desc="JO1への楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt="JO1" onerror="this.src='https://img.youtube.com/vi/6Y92rqcUMJk/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>JOin us!!</h3>
+                            <p>JO1</p>
+                        </div>
+                        <div class="works-song-item-number">04</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="4qHnXDyVcYg" data-title="DA・LI・LA" data-artist="天音かなた" data-img="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" data-category="Music" data-desc="天音かなたへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="天音かなた" onerror="this.src='https://img.youtube.com/vi/4qHnXDyVcYg/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>DA・LI・LA</h3>
+                            <p>天音かなた</p>
+                        </div>
+                        <div class="works-song-item-number">05</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="gCx5wexZi-U" data-title="オドルポルカ" data-artist="高橋ポルカ (from いきづらい部)" data-img="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" data-category="Music" data-desc="高橋ポルカへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt="高橋ポルカ" onerror="this.src='https://img.youtube.com/vi/gCx5wexZi-U/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>オドルポルカ</h3>
+                            <p>高橋ポルカ</p>
+                        </div>
+                        <div class="works-song-item-number">06</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="0q3ee9a9-Ic" data-title="One Night Love" data-artist="Knight A" data-img="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" data-category="Music" data-desc="Knight Aへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" alt="Knight A" onerror="this.src='https://img.youtube.com/vi/0q3ee9a9-Ic/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>One Night Love</h3>
+                            <p>Knight A</p>
+                        </div>
+                        <div class="works-song-item-number">07</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="hfQuBmxV-zo" data-title="CHOICE" data-artist="CUBERS" data-img="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" data-category="Music" data-desc="CUBERSへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt="CUBERS" onerror="this.src='https://img.youtube.com/vi/hfQuBmxV-zo/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>CHOICE</h3>
+                            <p>CUBERS</p>
+                        </div>
+                        <div class="works-song-item-number">08</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="STdMMPVt6jI" data-title="Xの方程式" data-artist="JamsCollection" data-img="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" data-category="Music" data-desc="JamsCollectionへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" alt="JamsCollection" onerror="this.src='https://img.youtube.com/vi/STdMMPVt6jI/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>Xの方程式</h3>
+                            <p>JamsCollection</p>
+                        </div>
+                        <div class="works-song-item-number">09</div>
+                    </div>
+
+                    <div class="works-song-item" data-link="https://ensemble-stars.jp/discography/musicdetails/ixrj9_w5nufl" data-title="Boku Sketch" data-artist="あんさんぶるスターズ" data-img="image/Music.png" data-category="Music" data-desc="あんさんぶるスターズへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="image/Music.png" alt="あんさんぶるスターズ">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>Boku Sketch</h3>
+                            <p>あんさんぶるスターズ</p>
+                        </div>
+                        <div class="works-song-item-number">10</div>
+                    </div>
+
+                    <div class="works-song-item" data-link="https://open.spotify.com/intl-ja/album/3OoOCqBsmJ8TU58gKLJDIq" data-title="プレイリスト" data-artist="suga/es" data-img="image/Music.png" data-category="Music" data-desc="suga/esへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="image/Music.png" alt="suga/es">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>プレイリスト</h3>
+                            <p>suga/es</p>
+                        </div>
+                        <div class="works-song-item-number">11</div>
+                    </div>
+
+                    <div class="works-song-item" data-youtube="qAHec3JKNME" data-title="Nonagonism" data-artist="ENJIN" data-img="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" data-category="Music" data-desc="ENJINへの楽曲提供。">
+                        <div class="works-song-item-img">
+                            <img src="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" alt="ENJIN" onerror="this.src='https://img.youtube.com/vi/qAHec3JKNME/hqdefault.jpg'">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>Nonagonism</h3>
+                            <p>ENJIN</p>
+                        </div>
+                        <div class="works-song-item-number">12</div>
+                    </div>
+
+                    <div class="works-song-item" data-title="DREAMERS" data-artist="tiit tokyo SS" data-img="image/Music.png" data-category="Music" data-desc="tiit tokyo SSファッションショー用楽曲制作。">
+                        <div class="works-song-item-img">
+                            <img src="image/Music.png" alt="tiit tokyo SS">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>DREAMERS</h3>
+                            <p>tiit tokyo SS</p>
+                        </div>
+                        <div class="works-song-item-number">13</div>
+                    </div>
+
+                    <div class="works-song-item" data-title="unlikely journey" data-artist="tiit tokyo AW" data-img="image/Music.png" data-category="Music" data-desc="tiit tokyo AWファッションショー用楽曲制作。">
+                        <div class="works-song-item-img">
+                            <img src="image/Music.png" alt="tiit tokyo AW">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>unlikely journey</h3>
+                            <p>tiit tokyo AW</p>
+                        </div>
+                        <div class="works-song-item-number">14</div>
+                    </div>
+
+                    <div class="works-song-item" data-title="ゲームアプリBGM" data-artist="オリックス・バファローズ" data-img="image/Music.png" data-category="Music" data-desc="オリックス・バファローズ公式アプリ用BGM制作。">
+                        <div class="works-song-item-img">
+                            <img src="image/Music.png" alt="オリックス・バファローズ">
+                            <div class="overlay"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <div class="works-song-item-info">
+                            <h3>ゲームアプリBGM</h3>
+                            <p>オリックス・バファローズ</p>
+                        </div>
+                        <div class="works-song-item-number">15</div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2025 OR Create. All rights reserved.</p></div>
-    </footer>
+        </section>
+    </main>
 
     <!-- YouTube Modal -->
     <div id="youtubeModal" class="youtube-modal">
@@ -450,8 +557,10 @@
         </div>
     </div>
 
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
-    <script src="works-filter.js"></script>
     <script src="youtube-modal.js"></script>
+    <script src="works-app.js"></script>
 </body>
 </html>

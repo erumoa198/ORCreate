@@ -6,481 +6,1243 @@
     <title>OR Create | Creative / Music / Beauty</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- index.html インラインスタイル（リデザイン） -->
+    <style>
+        /* ===== リセット・ベース上書き ===== */
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background: #0c0c0c;
+            color: #e8e8e8;
+            line-height: 1.8;
+        }
+
+        /* body::before のグラデ背景を抑制 */
+        body::before {
+            background: none;
+            animation: none;
+        }
+
+        /* body::after のノイズテクスチャは維持（opacity調整） */
+        body::after {
+            opacity: 0.03;
+        }
+
+        /* 見出し共通 */
+        h1, h2, h3, h4 {
+            font-family: 'Shippori Mincho', serif;
+        }
+
+        /* セクション共通余白 */
+        section {
+            padding: clamp(80px, 12vw, 160px) 0;
+        }
+
+        .container {
+            max-width: none;
+            margin: 0;
+            padding: 0 clamp(3rem, 8vw, 10rem);
+        }
+
+        /* セクションラベル（英語・小さめ） */
+        .section-label {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 1rem;
+        }
+
+        /* セクション見出し */
+        .section-heading {
+            font-family: 'Shippori Mincho', serif;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            line-height: 1.3;
+            color: #f0f0f0;
+            margin-bottom: 4rem;
+        }
+
+        /* ===== PC版 ナビゲーションバー ===== */
+        .nav-pc {
+            display: none;
+        }
+
+        @media (min-width: 769px) {
+            .nav-pc {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 999;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 3rem;
+                height: 64px;
+                background: rgba(12, 12, 12, 0.6);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+                transition: background 0.4s ease;
+            }
+
+            .nav-pc.scrolled {
+                background: rgba(12, 12, 12, 0.92);
+            }
+
+            .nav-pc__logo {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+            }
+
+            .nav-pc__logo img {
+                height: 36px;
+                width: auto;
+                filter: brightness(0) invert(1);
+                opacity: 0.9;
+            }
+
+            .nav-pc__links {
+                display: flex;
+                align-items: center;
+                gap: 2.5rem;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .nav-pc__links a {
+                color: rgba(255, 255, 255, 0.45);
+                text-decoration: none;
+                font-family: 'Zen Kaku Gothic New', sans-serif;
+                font-size: 0.75rem;
+                font-weight: 500;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                transition: color 0.4s ease;
+            }
+
+            .nav-pc__links a:hover,
+            .nav-pc__links a.active {
+                color: rgba(255,255,255,0.9);
+            }
+
+            .header-minimal {
+                display: none !important;
+            }
+        }
+
+        /* ===== ヒーローセクション ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #080808;
+            position: relative;
+            padding: 0 2rem;
+            overflow: hidden;
+        }
+
+        /* ヒーロー背景 — ジャケ画グリッド（横スクロール） */
+        .hero-bg-grid {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: max-content;
+            display: grid;
+            grid-template-columns: repeat(16, 180px);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 4px;
+            height: calc(100% + 20px);
+            opacity: 0.12;
+            pointer-events: none;
+            filter: grayscale(0.4) brightness(0.8);
+            animation: gridScroll 60s linear infinite;
+        }
+        .hero-bg-grid img {
+            width: 180px;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        @keyframes gridScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-180px * 8 - 4px * 8)); }
+        }
+
+        /* グリッドの上にグラデーションオーバーレイ */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 50%, rgba(8,8,8,0.2) 0%, rgba(8,8,8,0.85) 70%),
+                linear-gradient(180deg, rgba(8,8,8,0.6) 0%, transparent 30%, transparent 70%, rgba(8,8,8,0.8) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ヒーロー装飾レイヤー */
+        .hero-deco {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        /* 斜めライン */
+        .hero-deco-line {
+            position: absolute;
+            background: rgba(34,197,94,0.12);
+        }
+        .hero-deco-line.l1 {
+            width: 1px; height: 300px;
+            top: 10%; left: 15%;
+            transform: rotate(25deg);
+            animation: linePulse 4s ease-in-out infinite;
+        }
+        .hero-deco-line.l2 {
+            width: 1px; height: 200px;
+            top: 30%; right: 12%;
+            transform: rotate(-30deg);
+            animation: linePulse 5s ease-in-out 1s infinite;
+        }
+        .hero-deco-line.l3 {
+            width: 200px; height: 1px;
+            bottom: 25%; left: 8%;
+            animation: linePulse 6s ease-in-out 2s infinite;
+        }
+        .hero-deco-line.l4 {
+            width: 150px; height: 1px;
+            top: 20%; right: 20%;
+            animation: linePulse 4.5s ease-in-out 0.5s infinite;
+        }
+        /* 円 */
+        .hero-deco-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(34,197,94,0.08);
+        }
+        .hero-deco-circle.c1 {
+            width: 400px; height: 400px;
+            top: -100px; right: -80px;
+            animation: circleFloat 12s ease-in-out infinite;
+        }
+        .hero-deco-circle.c2 {
+            width: 250px; height: 250px;
+            bottom: -50px; left: -60px;
+            animation: circleFloat 10s ease-in-out 3s infinite;
+        }
+        .hero-deco-circle.c3 {
+            width: 150px; height: 150px;
+            top: 40%; left: 20%;
+            border-color: rgba(34,197,94,0.05);
+            animation: circleFloat 8s ease-in-out 1.5s infinite;
+        }
+        /* ドット */
+        .hero-deco-dot {
+            position: absolute;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: rgba(34,197,94,0.25);
+        }
+        .hero-deco-dot.d1 { top: 15%; left: 25%; animation: dotPulse 3s ease-in-out infinite; }
+        .hero-deco-dot.d2 { top: 70%; right: 18%; animation: dotPulse 4s ease-in-out 1s infinite; }
+        .hero-deco-dot.d3 { bottom: 20%; left: 40%; animation: dotPulse 3.5s ease-in-out 2s infinite; }
+        .hero-deco-dot.d4 { top: 35%; right: 30%; animation: dotPulse 5s ease-in-out 0.5s infinite; }
+
+        @keyframes linePulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        @keyframes circleFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(15px, -10px) scale(1.03); }
+        }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.5); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-logo img {
+            height: clamp(100px, 18vw, 180px);
+            filter: brightness(0) invert(1);
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeScaleIn 1.2s ease-out 0.3s forwards;
+        }
+
+        .hero-catch {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: clamp(2.8rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: #f5f5f5;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.8s forwards;
+        }
+
+        .hero-catch-line {
+            display: block;
+        }
+
+        .hero-catch .accent {
+            color: #22c55e;
+            text-shadow: 0 0 60px rgba(34,197,94,0.25);
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            color: rgba(255,255,255,0.4);
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            margin-bottom: 3.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 1.2s forwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 1.6s forwards;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #22c55e;
+            color: #000;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            border-radius: 0;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: rgba(255,255,255,0.55);
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 0;
+            text-decoration: none;
+            transition: all 0.4s;
+        }
+
+        .btn-ghost:hover {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2.5s forwards;
+        }
+
+        .hero-scroll span {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: rgba(255,255,255,0.2);
+            text-transform: uppercase;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+        }
+
+        .scroll-bar {
+            width: 1px;
+            height: 48px;
+            background: rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-bar::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #22c55e;
+            animation: scrollDown 2.4s ease-in-out infinite;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeScaleIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scrollDown {
+            0% { top: -100%; }
+            50% { top: 100%; }
+            100% { top: 100%; }
+        }
+
+        /* ===== サービス概要セクション ===== */
+        /* 共通パターン背景（斜め細線） */
+        .bg-pattern {
+            position: relative;
+        }
+        .bg-pattern::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 80px,
+                rgba(255,255,255,0.015) 80px,
+                rgba(255,255,255,0.015) 81px
+            );
+            pointer-events: none;
+        }
+        /* 交互パターン（横線） */
+        .bg-pattern-h::after {
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 60px,
+                rgba(255,255,255,0.015) 60px,
+                rgba(255,255,255,0.015) 61px
+            );
+        }
+
+        .services-section {
+            background: #1a1a1a;
+            position: relative;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .service-card {
+            padding: clamp(2.5rem, 4vw, 4rem);
+            background: rgba(255,255,255,0.02);
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.5s ease;
+            display: block;
+            position: relative;
+        }
+
+        .service-card:hover {
+            background: rgba(255,255,255,0.04);
+        }
+
+        .service-card-number {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.2);
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .service-card h3 {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #e0e0e0;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card p {
+            font-size: 0.85rem;
+            line-height: 2;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 2rem;
+        }
+
+        .service-card-link {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.08em;
+            transition: color 0.3s;
+        }
+
+        .service-card:hover .service-card-link {
+            color: #22c55e;
+        }
+
+        /* セパレーター線（カード間） */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .service-card:last-child::after {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .service-card::after {
+                right: 15%;
+                top: auto;
+                bottom: 0;
+                height: 1px;
+                width: 70%;
+            }
+
+            .service-card:last-child::after {
+                display: none;
+            }
+        }
+
+        /* ===== Works PICK UP ===== */
+        .works-section {
+            background: #0e0e0e;
+            position: relative;
+        }
+
+        .works-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+        }
+
+        .works-header-right {
+            margin-bottom: 0.5rem;
+        }
+
+        .works-header-right a {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            transition: color 0.3s;
+        }
+
+        .works-header-right a:hover {
+            color: #22c55e;
+        }
+
+        .works-swiper-container {
+            position: relative;
+        }
+
+        .works-swiper .swiper-slide {
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .works-swiper .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease, opacity 0.3s ease;
+        }
+
+        .works-swiper .swiper-slide:hover img {
+            transform: scale(1.03);
+        }
+
+        .works-swiper .swiper-slide p {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem 1.2rem 1rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 0.02em;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+        }
+
+        .works-swiper .swiper-pagination {
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .works-swiper .swiper-pagination-bullet {
+            background: rgba(255,255,255,0.2);
+            opacity: 1;
+            width: 6px;
+            height: 6px;
+            transition: all 0.3s;
+        }
+
+        .works-swiper .swiper-pagination-bullet-active {
+            background: #22c55e;
+            width: 24px;
+            border-radius: 3px;
+        }
+
+        /* ===== チーム紹介 ===== */
+        .team-section {
+            background: #1a1a1a;
+            position: relative;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: clamp(1.5rem, 3vw, 3rem);
+        }
+
+        .team-member {
+            display: flex;
+            gap: clamp(1.5rem, 3vw, 2.5rem);
+            align-items: flex-start;
+        }
+
+        .team-member-photo {
+            flex-shrink: 0;
+            width: clamp(100px, 14vw, 160px);
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .team-member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            filter: grayscale(0.3);
+            transition: filter 0.5s ease;
+        }
+
+        .team-member:hover .team-member-photo img {
+            filter: grayscale(0);
+        }
+
+        .team-member-info {
+            padding-top: 0.5rem;
+        }
+
+        .team-member-role {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 0.75rem;
+        }
+
+        .team-member-name {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 700;
+            color: #e8e8e8;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.02em;
+        }
+
+        .team-member-name-jp {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 1.2rem;
+        }
+
+        .team-member-bio {
+            font-size: 0.82rem;
+            line-height: 2;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 1.5rem;
+        }
+
+        .team-member-link {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            transition: color 0.3s;
+        }
+
+        .team-member-link:hover {
+            color: #22c55e;
+        }
+
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== 実績数値 ===== */
+        .stats-section {
+            background: #0e0e0e;
+            position: relative;
+        }
+
+        .stats-section section {
+            padding: 0;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: clamp(2rem, 4vw, 3rem) 1.5rem;
+            position: relative;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .stat-item:last-child::after {
+            display: none;
+        }
+
+        .stat-number {
+            font-family: 'Shippori Mincho', serif;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 700;
+            color: #f0f0f0;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number .stat-accent {
+            color: #22c55e;
+        }
+
+        .stat-desc {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            line-height: 1.8;
+            letter-spacing: 0.04em;
+        }
+
+        @media (max-width: 768px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-item:nth-child(2)::after {
+                display: none;
+            }
+
+            .stat-item:nth-child(1),
+            .stat-item:nth-child(2) {
+                border-bottom: 1px solid rgba(255,255,255,0.04);
+            }
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: #1a1a1a;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-heading {
+            font-family: 'Shippori Mincho', serif;
+            font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+
+        .cta-sub {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 3rem;
+            line-height: 2;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* ===== フッター ===== */
+        .footer {
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 4rem 0 0;
+        }
+
+        .footer h3 {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+        }
+
+        .footer h4 {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 1rem;
+        }
+
+        .footer p,
+        .footer li,
+        .footer a {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.3);
+            line-height: 2;
+        }
+
+        .footer a {
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== スクロールアニメーション ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ===== TOPに戻るボタン ===== */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s;
+            z-index: 100;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background: rgba(34,197,94,0.1);
+            border-color: rgba(34,197,94,0.3);
+        }
+
+        .scroll-to-top svg {
+            stroke: rgba(255,255,255,0.4);
+            width: 18px;
+            height: 18px;
+        }
+    </style>
 </head>
 <body>
-    <!-- ヘッダー -->
-    <header class="header" id="header">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon"><img src="image/logo.png" alt="OR Create"></div>
+    <!-- カーブメニュー（モバイル用） -->
+    <div id="curveMenu">
+        <div class="hamburger-curve">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="menu-inner-curve">
+            <div class="menu-logo">
+                <img src="image/logo.png" alt="OR Create">
                 <span>OR Create</span>
+            </div>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <svg version="1.1" id="blob" xmlns="http://www.w3.org/2000/svg">
+            <path id="blob-path" d="M60,500H0V0h60c0,0,20,172,20,250S60,900,60,500z"/>
+        </svg>
+    </div>
+
+    <!-- PC版 ナビゲーションバー -->
+    <nav class="nav-pc" id="navPc">
+        <a href="index.html" class="nav-pc__logo">
+            <img src="image/logo.png" alt="OR Create">
+        </a>
+        <ul class="nav-pc__links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="works.html">Works</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- モバイル用トップバー（ロゴのみ） -->
+    <header class="header-minimal" id="header">
+        <div class="container">
+            <a href="index.html" class="logo-minimal">
+                <img src="image/logo.png" alt="OR Create">
             </a>
-            <nav class="nav">
-                <a href="index.html" class="active">Home</a>
-                <a href="works.html">Works</a>
-                <a href="team.html">Team</a>
-                <a href="services.html">Services</a>
-                <a href="about.html">About</a>
-                <a href="contact.html" class="nav-cta">Contact</a>
-            </nav>
-            <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
     </header>
 
-    <!-- パララックス背景レイヤー -->
-    <div class="parallax-bg">
-        <div class="parallax-layer layer-1"></div>
-        <div class="parallax-layer layer-2"></div>
-        <div class="parallax-layer layer-3"></div>
-    </div>
-
-    <!-- パーティクル背景 -->
-    <div class="particles-container" id="particles"></div>
-
-    <!-- ヒーローセクション - 超モダンデザイン -->
-    <section class="hero-ultra-modern">
-        <div class="hero-blur-orbs">
-            <div class="blur-orb orb-1"></div>
-            <div class="blur-orb orb-2"></div>
-            <div class="blur-orb orb-3"></div>
+    <!-- ===== ヒーロー ===== -->
+    <section class="hero">
+        <!-- 背景グリッド（横スクロール） -->
+        <div class="hero-bg-grid">
+            <img src="image/graysheep.jpg" alt=""><img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt=""><img src="image/loveisthestrongest.jpg" alt=""><img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/AWkprykWHEo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" alt=""><img src="image/kansai.png" alt=""><img src="image/isk.png" alt=""><img src="image/inst.png" alt=""><img src="image/graysheep.jpg" alt=""><img src="image/loveisthestrongest.jpg" alt=""><img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/AWkprykWHEo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" alt=""><img src="image/kansai.png" alt=""><img src="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" alt=""><img src="image/isk.png" alt=""><img src="image/inst.png" alt=""><img src="image/graysheep.jpg" alt=""><img src="image/loveisthestrongest.jpg" alt=""><img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt=""><img src="image/graysheep.jpg" alt=""><img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt=""><img src="image/loveisthestrongest.jpg" alt=""><img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/AWkprykWHEo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" alt=""><img src="image/kansai.png" alt=""><img src="image/isk.png" alt=""><img src="image/inst.png" alt=""><img src="image/graysheep.jpg" alt=""><img src="image/loveisthestrongest.jpg" alt=""><img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/AWkprykWHEo/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/0q3ee9a9-Ic/maxresdefault.jpg" alt=""><img src="image/kansai.png" alt=""><img src="https://img.youtube.com/vi/STdMMPVt6jI/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/qAHec3JKNME/maxresdefault.jpg" alt=""><img src="image/isk.png" alt=""><img src="image/inst.png" alt=""><img src="image/graysheep.jpg" alt=""><img src="image/loveisthestrongest.jpg" alt=""><img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt=""><img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="">
         </div>
 
-        <div class="container">
-            <div class="hero-grid-ultra">
-                <div class="hero-content-ultra">
-                    <div class="hero-badge-ultra">
-                        <span class="badge-dot"></span>
-                        Creative / Music / Beauty
-                    </div>
+        <!-- 装飾レイヤー -->
+        <div class="hero-deco">
+            <div class="hero-deco-line l1"></div>
+            <div class="hero-deco-line l2"></div>
+            <div class="hero-deco-line l3"></div>
+            <div class="hero-deco-line l4"></div>
+            <div class="hero-deco-circle c1"></div>
+            <div class="hero-deco-circle c2"></div>
+            <div class="hero-deco-circle c3"></div>
+            <div class="hero-deco-dot d1"></div>
+            <div class="hero-deco-dot d2"></div>
+            <div class="hero-deco-dot d3"></div>
+            <div class="hero-deco-dot d4"></div>
+        </div>
 
-                    <h1 class="hero-title-ultra">
-                        <span class="title-line">必要だけ、</span>
-                        <span class="title-line gradient-text-animated">美しく創る</span>
-                    </h1>
-
-                    <p class="hero-description-ultra">
-                        実績ある制作と美容の体制で、楽曲も美しさも。<br>
-                        すべての人が輝くサポートを提供します。
-                    </p>
-
-                    <div class="hero-stats-inline">
-                        <div class="stat-inline">
-                            <span class="stat-number-inline">メジャーアーティスト実績</span>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-inline">
-                            <span class="stat-number-inline">TV・アニメタイアップ多数</span>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-inline">
-                            <span class="stat-number-inline">大型イベント出展実績</span>
-                        </div>
-                    </div>
-
-                    <div class="hero-actions-ultra">
-                        <a href="contact.html" class="btn-ultra btn-primary-ultra">
-                            <span>お問い合わせ</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                            </svg>
-                        </a>
-                        <a href="works.html" class="btn-ultra btn-glass-ultra">
-                            <span>実績を見る</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M15 3h6v6M9 21H3v-6M21 3l-9 9M3 21l9-9"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="hero-visual-ultra">
-                    <div class="visual-grid-ultra">
-                        <a href="works.html" class="visual-item-ultra visual-large">
-                            <div class="visual-content">
-                                <span class="visual-tag">Music</span>
-                                <h3>JO1</h3>
-                                <p>JOin us!!</p>
-                            </div>
-                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.8) 0%, rgba(245, 87, 108, 0.8) 100%), url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=800&fit=crop') center/cover;"></div>
-                        </a>
-
-                        <a href="works.html" class="visual-item-ultra visual-small">
-                            <div class="visual-content">
-                                <span class="visual-tag">Creative</span>
-                                <h3>映像制作</h3>
-                            </div>
-                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%), url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=600&fit=crop') center/cover;"></div>
-                        </a>
-
-                        <a href="works.html" class="visual-item-ultra visual-small">
-                            <div class="visual-content">
-                                <span class="visual-tag">Beauty</span>
-                                <h3>KANSAI COLLECTION</h3>
-                            </div>
-                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(79, 172, 254, 0.8) 0%, rgba(0, 242, 254, 0.8) 100%), url('https://images.unsplash.com/photo-1560869713-bf17c8b2dad8?w=600&h=600&fit=crop') center/cover;"></div>
-                        </a>
-
-                        <a href="works.html" class="visual-item-ultra visual-medium">
-                            <div class="visual-content">
-                                <span class="visual-tag">Music</span>
-                                <h3>天音かなた</h3>
-                                <p>DA・LI・LA</p>
-                            </div>
-                            <div class="visual-image" style="background: linear-gradient(135deg, rgba(250, 112, 154, 0.8) 0%, rgba(254, 225, 64, 0.8) 100%), url('https://images.unsplash.com/photo-1�514320291840-2e0a9bf2a9ae?w=800&h=600&fit=crop') center/cover;"></div>
-                        </a>
-                    </div>
-
-                    <div class="floating-badge badge-float-1">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/>
-                        </svg>
-                        <span>メジャー実績</span>
-                    </div>
-
-                    <div class="floating-badge badge-float-2">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
-                            <line x1="7" y1="2" x2="7" y2="22"/>
-                            <line x1="17" y1="2" x2="17" y2="22"/>
-                            <line x1="2" y1="12" x2="22" y2="12"/>
-                            <line x1="2" y1="7" x2="7" y2="7"/>
-                            <line x1="2" y1="17" x2="7" y2="17"/>
-                            <line x1="17" y1="17" x2="22" y2="17"/>
-                            <line x1="17" y1="7" x2="22" y2="7"/>
-                        </svg>
-                        <span>総合制作</span>
-                    </div>
-                </div>
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="image/logo.png" alt="OR Create">
+            </div>
+            <h1 class="hero-catch">
+                <span class="hero-catch-line"><span class="accent">音</span>で届ける。</span>
+                <span class="hero-catch-line"><span class="accent">音</span>から広げる。</span>
+            </h1>
+            <p class="hero-sub">映像も、写真も、AIも。クリエイティブをまるごとひとつに。</p>
+            <div class="hero-cta">
+                <a href="contact.html" class="btn-primary">お問い合わせ</a>
+                <a href="works.html" class="btn-ghost">Works を見る</a>
             </div>
         </div>
-
-        <div class="hero-scroll-indicator">
+        <div class="hero-scroll">
             <span>Scroll</span>
-            <div class="scroll-line"></div>
+            <div class="scroll-bar"></div>
         </div>
     </section>
 
-    <!-- サービス概要 - 3軸 -->
-    <section class="services-overview">
+    <!-- ===== サービス概要 ===== -->
+    <section class="services-section bg-pattern">
         <div class="container">
-            <div class="section-header-modern">
-                <span class="label-modern">What We Do</span>
-                <h2>3つの軸で、<br>包括的なクリエイティブサポート</h2>
+            <div class="reveal">
+                <p class="section-label">What We Do</p>
+                <h2 class="section-heading">3つの軸で、<br>クリエイティブの未来を創る。</h2>
             </div>
-            <div class="service-cards-modern">
-                <div class="service-card-modern" data-color="creative" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80');">
-                    <div class="service-icon-modern">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect width="18" height="18" x="3" y="3" rx="2"/>
-                            <path d="M7 3v18"/>
-                            <path d="M3 7.5h4"/>
-                            <path d="M3 12h18"/>
-                            <path d="M3 16.5h4"/>
-                            <path d="M17 3v18"/>
-                            <path d="M17 7.5h4"/>
-                            <path d="M17 16.5h4"/>
-                        </svg>
-                    </div>
-                    <h3>Creative</h3>
-                    <p>映像制作・写真撮影・Webマーケティング・イベント企画。企業VP、MV、広告映像など幅広く対応。</p>
-                    <ul class="service-list-modern">
-                        <li>映像制作（企業VP・MV・広告）</li>
-                        <li>写真撮影・レタッチ</li>
-                        <li>Webマーケティング・LP制作</li>
-                        <li>イベント企画・制作</li>
-                    </ul>
-                    <a href="services.html#creative" class="service-link-modern">詳しく見る →</a>
-                </div>
-                <div class="service-card-modern" data-color="music" style="background-image: url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80');">
-                    <div class="service-icon-modern">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18V5l12-2v13"/>
-                            <circle cx="6" cy="18" r="3"/>
-                            <circle cx="18" cy="16" r="3"/>
-                        </svg>
-                    </div>
+        </div>
+        <div class="container">
+            <div class="services-grid">
+                <a href="services.html#music" class="service-card reveal reveal-delay-1">
+                    <div class="service-card-number">01</div>
                     <h3>Music</h3>
-                    <p>楽曲制作・編曲・サウンドプロデュース。メジャーアーティスト、VTuber、アニメタイアップなど多数実績。</p>
-                    <ul class="service-list-modern">
-                        <li>楽曲制作・編曲</li>
-                        <li>トラックメイク</li>
-                        <li>ギター・ベース演奏</li>
-                        <li>コンペ対応・楽曲提供</li>
-                    </ul>
-                    <a href="services.html#music" class="service-link-modern">詳しく見る →</a>
-                </div>
-                <div class="service-card-modern" data-color="beauty" style="background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80');">
-                    <div class="service-icon-modern">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-                            <path d="M5 3v4"/>
-                            <path d="M19 17v4"/>
-                            <path d="M3 5h4"/>
-                            <path d="M17 19h4"/>
-                        </svg>
-                    </div>
+                    <p>メジャーアーティストへの楽曲提供、VTuber楽曲、アニメタイアップなど多数の実績。作編曲からミックス・マスタリングまで一貫対応。</p>
+                    <span class="service-card-link">詳しく見る →</span>
+                </a>
+                <a href="services.html#creative" class="service-card reveal reveal-delay-2">
+                    <div class="service-card-number">02</div>
+                    <h3>Creative</h3>
+                    <p>MV・企業VP・広告映像など映像制作全般。企画構成から撮影・編集・カラグレまでワンストップ。Webマーケ・SNS運用も展開中。</p>
+                    <span class="service-card-link">詳しく見る →</span>
+                </a>
+                <a href="services.html#beauty" class="service-card reveal reveal-delay-3">
+                    <div class="service-card-number">03</div>
                     <h3>Beauty</h3>
-                    <p>タレント・モデル向け専属美容提携、大型イベント出展、サロン運営支援。累計10,000人以上のお客様。</p>
-                    <ul class="service-list-modern">
-                        <li>タレント専属美容提携</li>
-                        <li>大型イベント出展サポート</li>
-                        <li>サロン運営支援</li>
-                        <li>PR連携・SNS制作</li>
-                    </ul>
-                    <a href="services.html#beauty" class="service-link-modern">詳しく見る →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 実績ハイライト - iPod Cover Flow風 -->
-    <section class="works-showcase">
-        <div class="container">
-            <div class="section-header-modern">
-                <span class="label-modern">Featured Works</span>
-                <h2>注目の実績</h2>
-            </div>
-
-            <div class="coverflow-container">
-                <button class="coverflow-nav coverflow-prev" aria-label="前へ">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M15 18l-6-6 6-6"/>
-                    </svg>
-                </button>
-
-                <div class="coverflow-wrapper">
-                    <div class="coverflow-track">
-                        <div class="coverflow-item" data-youtube="6Y92rqcUMJk">
-                            <div class="coverflow-image">
-                                <img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt="JO1" onerror="this.src='https://img.youtube.com/vi/6Y92rqcUMJk/hqdefault.jpg'">
-                                <div class="work-play-btn">▶</div>
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>JOin us!!</h3>
-                                <p>JO1</p>
-                                <span class="work-tag-apple">Music</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item" data-youtube="gCx5wexZi-U">
-                            <div class="coverflow-image">
-                                <img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt="高橋ポルカ(綾咲穂音) from いきづらい部！" onerror="this.src='https://img.youtube.com/vi/gCx5wexZi-U/hqdefault.jpg'">
-                                <div class="work-play-btn">▶</div>
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>オドルポルカ</h3>
-                                <p>高橋ポルカ(綾咲穂音) from いきづらい部！</p>
-                                <span class="work-tag-apple">Music</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item" data-youtube="4qHnXDyVcYg">
-                            <div class="coverflow-image">
-                                <img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="天音かなた" onerror="this.src='https://img.youtube.com/vi/4qHnXDyVcYg/hqdefault.jpg'">
-                                <div class="work-play-btn">▶</div>
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>DA・LI・LA</h3>
-                                <p>天音かなた</p>
-                                <span class="work-tag-apple">Music</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item">
-                            <div class="coverflow-image">
-                                <img src="image/isk.png" alt="石原産業">
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>研修用映像</h3>
-                                <p>石原産業様</p>
-                                <span class="work-tag-apple">Creative</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item">
-                            <div class="coverflow-image">
-                                <img src="image/kansai.png" alt="関西コレクション">
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>出演者ブース映像</h3>
-                                <p>KANSAI COLLECTION</p>
-                                <span class="work-tag-apple">Creative</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item">
-                            <div class="coverflow-image">
-                                <img src="image/inst.png" alt="大阪市北区">
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>コンテスト受賞</h3>
-                                <p>大阪市北区</p>
-                                <span class="work-tag-apple">Creative</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item" data-youtube="hfQuBmxV-zo">
-                            <div class="coverflow-image">
-                                <img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt="CUBERS" onerror="this.src='https://img.youtube.com/vi/hfQuBmxV-zo/hqdefault.jpg'">
-                                <div class="work-play-btn">▶</div>
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>CHOICE</h3>
-                                <p>CUBERS</p>
-                                <span class="work-tag-apple">Music</span>
-                            </div>
-                        </div>
-                        <a href="https://ensemble-stars.jp/discography/musicdetails/ixrj9_w5nufl" target="_blank" class="coverflow-item">
-                            <div class="coverflow-image">
-                                <img src="image/Music.png" alt="あんさんぶるスターズ">
-                                <div class="work-play-btn">🔗</div>
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>Boku Sketch</h3>
-                                <p>あんさんぶるスターズ</p>
-                                <span class="work-tag-apple">Music</span>
-                            </div>
-                        </a>
-                        <div class="coverflow-item">
-                            <div class="coverflow-image">
-                                <img src="image/Creative.png" alt="トンボリステーション">
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>企業広告映像</h3>
-                                <p>トンボリステーション</p>
-                                <span class="work-tag-apple">Creative</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item">
-                            <div class="coverflow-image">
-                                <img src="image/Creative.png" alt="MV撮影">
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>MV撮影</h3>
-                                <p>アーティスト各種</p>
-                                <span class="work-tag-apple">Creative</span>
-                            </div>
-                        </div>
-                        <div class="coverflow-item">
-                            <div class="coverflow-image">
-                                <img src="image/Beauty.png" alt="KANSAI COLLECTION">
-                            </div>
-                            <div class="coverflow-info">
-                                <h3>KANSAI COLLECTION 2025 A/W</h3>
-                                <p>大型ファッションイベント出展</p>
-                                <span class="work-tag-apple">Beauty</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="coverflow-nav coverflow-next" aria-label="次へ">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 18l6-6-6-6"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="showcase-action">
-                <a href="works.html" class="btn-modern btn-outline-modern">すべての実績を見る</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- チーム紹介 -->
-    <section class="team-intro">
-        <div class="container">
-            <div class="section-header-modern">
-                <span class="label-modern">Our Team</span>
-                <h2>プロフェッショナルチーム</h2>
-            </div>
-            <div class="team-preview-cards">
-                <a href="team.html#sugiyama" class="team-preview-card">
-                    <div class="team-preview-image" style="background: url('image/TAKUYA.png') center/cover;">
-                        <div class="member-bg-text">PRODUCER • BASSIST • MUSIC • CREATIVE •</div>
-                        <div class="team-preview-overlay">
-                            <span class="team-preview-role">Producer / Bassist</span>
-                        </div>
-                    </div>
-                    <div class="team-preview-content">
-                        <h3>すぎやまたくや</h3>
-                        <p>SMEグループからメジャーデビュー。アニメタイアップ多数。楽曲制作・マーケティングを統括。</p>
-                        <div class="team-preview-link">詳しく見る →</div>
-                    </div>
-                </a>
-                <a href="team.html#tsuchiya" class="team-preview-card">
-                    <div class="team-preview-image" style="background: url('image/MISATO.png') center/cover;">
-                        <div class="member-bg-text">CREATOR • GUITARIST • MUSIC • ARTIST •</div>
-                        <div class="team-preview-overlay">
-                            <span class="team-preview-role">Creator / Guitarist</span>
-                        </div>
-                    </div>
-                    <div class="team-preview-content">
-                        <h3>つちやみさと</h3>
-                        <p>音楽クリエイター。メジャー・インディーズへの楽曲提供、ファッションショー・TV番組など多方面で活躍。</p>
-                        <div class="team-preview-link">詳しく見る →</div>
-                    </div>
+                    <p>関西コレクション出展、タレント向け専属美容提携、サロン運営支援。累計10,000人以上の施術実績を持つプロが対応。</p>
+                    <span class="service-card-link">詳しく見る →</span>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- 強みと実績 -->
-    <section class="stats-modern">
+    <!-- ===== Works PICK UP ===== -->
+    <section class="works-section bg-pattern-h">
         <div class="container">
-            <div class="stats-grid-modern">
-                <div class="stat-card-modern">
-                    <div class="stat-icon-large">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18V5l12-2v13"/>
-                            <circle cx="6" cy="18" r="3"/>
-                            <circle cx="18" cy="16" r="3"/>
-                        </svg>
-                    </div>
-                    <div class="stat-label-modern">メジャーアーティスト<br>楽曲提供実績</div>
+            <div class="works-header reveal">
+                <div>
+                    <p class="section-label">Selected Works</p>
+                    <h2 class="section-heading" style="margin-bottom: 0;">実績紹介</h2>
                 </div>
-                <div class="stat-card-modern">
-                    <div class="stat-icon-large">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect width="20" height="15" x="2" y="7" rx="2" ry="2"/>
-                            <polyline points="17 2 12 7 7 2"/>
-                        </svg>
-                    </div>
-                    <div class="stat-label-modern">TV・アニメ<br>タイアップ多数</div>
+                <div class="works-header-right">
+                    <a href="works.html">すべて見る →</a>
                 </div>
-                <div class="stat-card-modern">
-                    <div class="stat-icon-large">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-                            <path d="M5 3v4"/>
-                            <path d="M19 17v4"/>
-                            <path d="M3 5h4"/>
-                            <path d="M17 19h4"/>
-                        </svg>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="works-swiper-container reveal reveal-delay-2">
+                <div class="swiper works-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" data-youtube="AWkprykWHEo">
+                            <img src="image/graysheep.jpg" alt="Gray Sheep / GOAT" onerror="this.src='https://img.youtube.com/vi/AWkprykWHEo/hqdefault.jpg'">
+                            <p>Gray Sheep / GOAT - Colors Of You</p>
+                        </div>
+                        <div class="swiper-slide" data-youtube="UEquvZ9SHUI">
+                            <img src="image/loveisthestrongest.jpg" alt="May'n" onerror="this.src='https://img.youtube.com/vi/UEquvZ9SHUI/hqdefault.jpg'">
+                            <p>May'n - LOVE IS THE STRONGEST</p>
+                        </div>
+                        <div class="swiper-slide" data-youtube="XePuD957Wdk">
+                            <img src="https://img.youtube.com/vi/XePuD957Wdk/maxresdefault.jpg" alt="YuMe" onerror="this.src='https://img.youtube.com/vi/XePuD957Wdk/hqdefault.jpg'">
+                            <p>YuMe - Wedding Bell</p>
+                        </div>
+                        <div class="swiper-slide" data-youtube="6Y92rqcUMJk">
+                            <img src="https://img.youtube.com/vi/6Y92rqcUMJk/maxresdefault.jpg" alt="JO1" onerror="this.src='https://img.youtube.com/vi/6Y92rqcUMJk/hqdefault.jpg'">
+                            <p>JO1 - JOin us!!</p>
+                        </div>
+                        <div class="swiper-slide" data-youtube="4qHnXDyVcYg">
+                            <img src="https://img.youtube.com/vi/4qHnXDyVcYg/maxresdefault.jpg" alt="天音かなた" onerror="this.src='https://img.youtube.com/vi/4qHnXDyVcYg/hqdefault.jpg'">
+                            <p>天音かなた - DA・LI・LA</p>
+                        </div>
+                        <div class="swiper-slide" data-youtube="gCx5wexZi-U">
+                            <img src="https://img.youtube.com/vi/gCx5wexZi-U/maxresdefault.jpg" alt="高橋ポルカ" onerror="this.src='https://img.youtube.com/vi/gCx5wexZi-U/hqdefault.jpg'">
+                            <p>高橋ポルカ - オドルポルカ</p>
+                        </div>
+                        <div class="swiper-slide" data-youtube="hfQuBmxV-zo">
+                            <img src="https://img.youtube.com/vi/hfQuBmxV-zo/maxresdefault.jpg" alt="CUBERS" onerror="this.src='https://img.youtube.com/vi/hfQuBmxV-zo/hqdefault.jpg'">
+                            <p>CUBERS - CHOICE</p>
+                        </div>
+                        <div class="swiper-slide" data-link="https://ensemble-stars.jp/discography/musicdetails/ixrj9_w5nufl">
+                            <img src="image/Music.png" alt="あんさんぶるスターズ">
+                            <p>あんさんぶるスターズ - Boku Sketch</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="image/isk.png" alt="石原産業">
+                            <p>石原産業様 - 研修用映像</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="image/kansai.png" alt="関西コレクション">
+                            <p>KANSAI COLLECTION - 出演者ブース映像</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="image/inst.png" alt="大阪市北区">
+                            <p>大阪市北区 - コンテスト受賞</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="image/Creative.png" alt="トンボリステーション">
+                            <p>トンボリステーション - 企業広告映像</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="image/Beauty.png" alt="KANSAI COLLECTION">
+                            <p>KANSAI COLLECTION 2025 A/W</p>
+                        </div>
                     </div>
-                    <div class="stat-label-modern">大型イベント<br>出展サポート</div>
-                </div>
-                <div class="stat-card-modern">
-                    <div class="stat-icon-large">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <circle cx="12" cy="12" r="6"/>
-                            <circle cx="12" cy="12" r="2"/>
-                        </svg>
-                    </div>
-                    <div class="stat-label-modern">Creative / Music / Beauty<br>3軸の総合力</div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta-modern">
+    <!-- ===== チーム紹介 ===== -->
+    <section class="team-section bg-pattern">
         <div class="container">
-            <div class="cta-content-modern">
-                <h2>プロジェクトを始めましょう</h2>
-                <p>楽曲制作、映像制作、美容サポート。あなたのニーズに合わせたサービスを提供します。</p>
-                <a href="contact.html" class="btn-modern btn-primary-modern btn-large">
-                    お問い合わせ
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
+            <div class="reveal">
+                <p class="section-label">Our Team</p>
+                <h2 class="section-heading">クリエイター</h2>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-member reveal reveal-delay-1">
+                    <div class="team-member-photo">
+                        <img src="image/TAKUYA.png" alt="Takuya Sugiyama">
+                    </div>
+                    <div class="team-member-info">
+                        <p class="team-member-role">Producer / Bassist</p>
+                        <h3 class="team-member-name">Takuya Sugiyama</h3>
+                        <p class="team-member-name-jp">すぎやまたくや</p>
+                        <p class="team-member-bio">メジャーデビュー後、アニメタイアップ多数。楽曲制作・マーケティングを統括。</p>
+                        <a href="team.html#sugiyama" class="team-member-link">View Profile →</a>
+                    </div>
+                </div>
+
+                <div class="team-member reveal reveal-delay-2">
+                    <div class="team-member-photo">
+                        <img src="image/MISATO.png" alt="Misato Tsuchiya">
+                    </div>
+                    <div class="team-member-info">
+                        <p class="team-member-role">Creator / Guitarist</p>
+                        <h3 class="team-member-name">Misato Tsuchiya</h3>
+                        <p class="team-member-name-jp">つちやみさと</p>
+                        <p class="team-member-bio">音楽クリエイター。メジャー・インディーズへの楽曲提供、ファッションショー・TV番組など多方面で活躍。</p>
+                        <a href="team.html#tsuchiya" class="team-member-link">View Profile →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 実績数値 ===== -->
+    <section class="stats-section" style="padding: 0;">
+        <div class="container">
+            <div class="stats-row reveal">
+                <div class="stat-item">
+                    <div class="stat-number">50<span class="stat-accent">+</span></div>
+                    <p class="stat-desc">メジャーアーティスト<br>楽曲提供実績</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" style="font-size: clamp(1.2rem, 2vw, 1.8rem);">TV / Anime</div>
+                    <p class="stat-desc">TV・アニメ<br>タイアップ多数</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10,000<span class="stat-accent">+</span></div>
+                    <p class="stat-desc">累計施術人数<br>美容サービス実績</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3 in 1</div>
+                    <p class="stat-desc">Creative / Music / Beauty<br>3軸の総合力</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section bg-pattern">
+        <div class="container">
+            <div class="reveal">
+                <h2 class="cta-heading">まずは、ご相談から。</h2>
+                <p class="cta-sub">楽曲制作・映像制作・美容サポートなど、<br>お気軽にお問い合わせください。</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn-primary">お問い合わせ</a>
+                    <a href="services.html" class="btn-ghost">サービス詳細</a>
+                </div>
             </div>
         </div>
     </section>
@@ -490,7 +1252,7 @@
         <div class="container footer-grid">
             <div>
                 <h3>OR Create</h3>
-                <p>Creative / Music / Beauty の3軸で、包括的なクリエイティブサービスを提供するチームです。</p>
+                <p>Creative / Music / Beauty の3軸で、<br>包括的なクリエイティブサービスを提供するチームです。</p>
             </div>
             <div>
                 <h4>Pages</h4>
@@ -504,16 +1266,16 @@
             <div>
                 <h4>Services</h4>
                 <ul>
-                    <li><a href="services.html#creative">Creative</a></li>
-                    <li><a href="services.html#music">Music</a></li>
-                    <li><a href="services.html#beauty">Beauty</a></li>
+                    <li><a href="services.html#music">楽曲制作のご依頼</a></li>
+                    <li><a href="services.html#creative">映像制作のご依頼</a></li>
+                    <li><a href="services.html#beauty">美容サービスのご依頼</a></li>
                 </ul>
             </div>
             <div>
                 <h4>Contact</h4>
                 <ul>
-                    <li><a href="contact.html">お問い合わせ</a></li>
-                    <li><a href="mailto:idea.crankup@gmail.com">Email</a></li>
+                    <li><a href="contact.html">お問い合わせフォーム</a></li>
+                    <li><a href="mailto:idea.crankup@gmail.com">idea.crankup@gmail.com</a></li>
                 </ul>
             </div>
         </div>
@@ -527,7 +1289,47 @@
         </svg>
     </button>
 
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
     <script src="youtube-modal.js"></script>
+
+    <!-- PC版ナビ スクロール制御 -->
+    <script>
+        (function() {
+            var nav = document.getElementById('navPc');
+            if (!nav) return;
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 60) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        })();
+    </script>
+
+    <!-- スクロールアニメーション -->
+    <script>
+        (function() {
+            var reveals = document.querySelectorAll('.reveal');
+            if (!reveals.length) return;
+
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            reveals.forEach(function(el) {
+                observer.observe(el);
+            });
+        })();
+    </script>
 </body>
 </html>

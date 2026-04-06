@@ -1,0 +1,84 @@
+/* ===== PC版 ナビゲーションバー（サブページ共通） ===== */
+.nav-pc {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .nav-pc {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        z-index: 1000;
+        background: transparent;
+        transition: background 0.3s ease;
+    }
+
+    .nav-pc.scrolled {
+        background: rgba(8, 8, 8, 0.95);
+    }
+
+    .nav-pc-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+    }
+
+    .nav-pc-logo img {
+        height: 40px;
+        width: auto;
+        filter: brightness(0) invert(1);
+    }
+
+    .nav-pc-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-pc-links a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+        position: relative;
+    }
+
+    .nav-pc-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #22c55e;
+        transition: width 0.3s ease;
+    }
+
+    .nav-pc-links a:hover,
+    .nav-pc-links a.active {
+        color: #fff;
+    }
+
+    .nav-pc-links a:hover::after,
+    .nav-pc-links a.active::after {
+        width: 100%;
+    }
+
+    /* PC版ではheader-minimalを非表示 */
+    .header-minimal {
+        display: none !important;
+    }
+}
