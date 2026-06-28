@@ -149,7 +149,7 @@
 
     // 人気アイテム（横スクロール・ランキング）
     var items = DB.products.slice(0, 6).map(function (p, i) {
-      return '<a class="mini" href="#/products">'
+      return '<a class="mini" href="#/products/' + p.id + '">'
         + '<div class="mini__img cover ' + coverOf(productIndex(p.id)) + '"><span class="mini__rank">' + (i + 1) + '</span><span class="cover__motif" style="width:60px;height:60px">' + MOTIF.bottle + '</span></div>'
         + '<div class="mini__cat">' + esc(p.tag) + '</div>'
         + '<div class="mini__name">' + esc(p.name) + '</div>'
@@ -165,15 +165,17 @@
 
     var html = ''
       + '<div class="htop"><span class="htop__brand" style="font-size:0.82rem;color:var(--ink-2)">大阪・梅田 ｜ アートメイク・エステ</span><span class="htop__loc">Beauty Navi</span></div>'
+
+      + '<a class="hbig" href="#/diagnosis/persona"><div class="hbig__c"><span class="hbig__kick">Beauty Type Diagnosis</span>'
+      +   '<span class="hbig__t">あなたの美容タイプを<br>診断する</span>'
+      +   '<span class="hbig__s">8つの質問でわかる・約2分</span>'
+      +   '<span class="hbig__btn">診断スタート ' + I.arrow + '</span></div>'
+      +   '<span class="hbig__ic">' + I.scan + '</span></a>'
+
       + '<a class="search" href="#" onclick="return false">' + I.search + '<span>気になる悩み・メニューを検索</span></a>'
       + '<nav class="quick">' + quick + '</nav>'
 
-      + '<a class="hbig" href="#/diagnosis"><div class="hbig__c"><span class="hbig__kick">Start Diagnosis</span>'
-      +   '<span class="hbig__t">気になる悩みを<br>診断する</span>'
-      +   '<span class="hbig__s">1分でわかる・あなた専用の提案</span></div>'
-      +   '<span class="hbig__ic">' + I.scan + '</span></a>'
-
-      + modHead('人気の診断', 'Ranking', '#/diagnosis')
+      + modHead('ほかの診断', 'Ranking', '#/diagnosis')
       + '<div class="feed">' + diagRank + '</div>'
 
       + modHead('人気アイテム', 'Ranking', '#/products')
@@ -238,6 +240,7 @@
     }).join('');
     var html = '<div class="quiz__bar"><span style="width:' + pct + '%"></span></div>'
       + '<section class="quiz quiz-anim">'
+      +   (q.section ? '<div class="quiz__sec">' + esc(q.section) + '</div>' : '')
       +   '<div class="quiz__count"><b>' + pad2(idx + 1) + '</b> / ' + pad2(d.questions.length) + '</div>'
       +   '<h2 class="quiz__q">' + esc(q.q) + '</h2>'
       +   '<div class="quiz__opts">' + opts + '</div>'
@@ -259,8 +262,32 @@
     d.results.forEach(function (r) { if ((sc[r.id] || 0) > bv) { bv = sc[r.id] || 0; best = r.id; } });
     return best;
   }
+  function computePersona(d, answers) {
+    // 軸ごとのポール集計
+    var tally = {};
+    answers.forEach(function (ai, qi) {
+      var o = d.questions[qi].options[ai]; if (!o || !o.axis) return;
+      Object.keys(o.axis).forEach(function (k) { tally[k] = (tally[k] || 0) + o.axis[k]; });
+    });
+    var code = '', pcts = [];
+    d.axes.forEach(function (ax) {
+      var av = tally[ax.a.letter] || 0, bv = tally[ax.b.letter] || 0;
+      var total = av + bv || 1;
+      if (av >= bv) { code += ax.a.letter; pcts.push(Math.round(av / total * 100)); }
+      else { code += ax.b.letter; pcts.push(Math.round(bv / total * 100)); }
+    });
+    // 軸1（眉）×軸3（印象）で基本タイプを決定
+    var key = code.charAt(0) + code.charAt(2);
+    return { code: code, p: pcts, r: key };
+  }
+
   function finishQuiz() {
     var d = getDiag(quizState.id);
+    if (d.mode === 'persona') {
+      var pr = computePersona(d, quizState.answers);
+      go('#/r/' + encodeState({ d: d.id, r: pr.r, c: pr.code, p: pr.p }));
+      return;
+    }
     go('#/r/' + encodeState({ d: d.id, r: computeResult(d, quizState.answers) }));
   }
 
@@ -278,7 +305,7 @@
     // 解決する商品（主役）：理由・効果つき
     var picks = (result.picks || []).map(function (pk) {
       var p = getProduct(pk.id); if (!p) return '';
-      return '<a class="sol" href="#/products">'
+      return '<a class="sol" href="#/products/' + p.id + '">'
         + '<div class="sol__head">'
         +   '<div class="sol__img cover ' + coverOf(productIndex(p.id)) + '"><span class="cover__motif" style="width:54px;height:54px;right:2px;bottom:2px">' + MOTIF.bottle + '</span></div>'
         +   '<div class="sol__hb"><div class="sol__cat">' + esc(p.tag) + '</div><div class="sol__name">' + esc(p.name) + '</div><div class="sol__price">' + esc(p.price) + '</div></div>'
@@ -300,13 +327,35 @@
         + '<div class="relmenu__price">' + esc(m.price) + '</div></a>';
     }).join('');
 
+    // MBTI風：タイプコード＋4軸バー
+    var isPersona = d.mode === 'persona' && st.c && st.p;
+    var codeHtml = isPersona ? '<div class="typecode">' + st.c.split('').join('<span class="typecode__d">·</span>') + '</div>' : '';
+    var axesHtml = '';
+    if (isPersona) {
+      axesHtml = '<section class="sec sec--tight"><div class="mod" style="padding:0 0 14px"><div class="mod__l"><span class="mod__t">あなたの4軸</span><span class="mod__en">Axes</span></div></div>';
+      d.axes.forEach(function (ax, i) {
+        var letter = st.c.charAt(i), pct = st.p[i];
+        var aOn = letter === ax.a.letter;
+        var winLabel = aOn ? ax.a.label : ax.b.label;
+        var fillStyle = (aOn ? 'left:0;' : 'right:0;') + 'width:' + pct + '%';
+        axesHtml += '<div class="axis">'
+          + '<div class="axis__top"><span class="axis__t">' + esc(ax.title) + '</span><span class="axis__pct">' + esc(winLabel) + ' ' + pct + '%</span></div>'
+          + '<div class="axis__track"><span class="axis__fill" style="' + fillStyle + '"></span></div>'
+          + '<div class="axis__poles"><span class="' + (aOn ? 'on' : '') + '">' + esc(ax.a.label) + '</span><span class="' + (!aOn ? 'on' : '') + '">' + esc(ax.b.label) + '</span></div>'
+          + '</div>';
+      });
+      axesHtml += '</section>';
+    }
+
     var html = ''
       + '<section class="r-hero">'
       +   '<div class="kicker r-hero__kick">' + esc(d.title) + ' — Result</div>'
+      +   codeHtml
       +   '<h1 class="r-hero__title">' + esc(result.title) + '</h1>'
       +   '<p class="r-hero__catch">' + esc(result.catch) + '</p>'
       +   '<p class="r-hero__sum">' + esc(result.feature || result.summary || '') + '</p>'
       + '</section>'
+      + axesHtml
       + '<section class="sec sec--tight"><div class="mod" style="padding:0 0 12px"><div class="mod__l"><span class="mod__t">対策・アドバイス</span><span class="mod__en">Advice</span></div></div>'
       +   '<ol class="adv">' + advice + '</ol></section>';
 
@@ -366,9 +415,36 @@
   // ============================================================
   //  PRODUCTS
   // ============================================================
+  function viewProduct(id) {
+    var p = getProduct(id); if (!p) { go('#/products'); return; }
+    var rel = p.related ? getDiag(p.related) : null;
+    var html = '<article class="pd">'
+      + '<div class="pd__cover cover ' + coverOf(productIndex(p.id)) + '"><span class="cover__motif" style="width:140px;height:140px">' + MOTIF.bottle + '</span></div>'
+      + '<div class="pd__head"><div class="pd__cat">' + esc(p.tag) + '</div>'
+      +   '<h1 class="pd__name">' + esc(p.name) + '</h1>'
+      +   '<div class="pd__price">' + esc(p.price) + '<span class="pd__tax">税込</span></div></div>'
+      + '<p class="pd__detail">' + esc(p.detail || p.summary) + '</p>'
+      + '<div class="pd__rows">'
+      +   (p.effect ? '<div class="pd__row"><span class="pd__lb">効果</span><span class="pd__tx">' + esc(p.effect) + '</span></div>' : '')
+      +   (p.howto ? '<div class="pd__row"><span class="pd__lb">使い方</span><span class="pd__tx">' + esc(p.howto) + '</span></div>' : '')
+      + '</div>';
+    if (rel) {
+      html += '<a class="pd__rel" href="#/diagnosis/' + rel.id + '">'
+        + '<div class="pd__rel-b"><span class="pd__rel-lb">関連する診断</span><span class="pd__rel-t">' + esc(rel.title) + '</span></div>'
+        + '<span class="pd__rel-go">' + I.arrow + '</span></a>';
+    }
+    html += '<div class="pd__cta">'
+      + '<a class="btn btn--fill btn--block" href="#" onclick="return false">' + I.bag + ' カートに入れる</a>'
+      + '<a class="btn btn--line btn--block" href="#" onclick="return false">LINEで相談</a>'
+      + '</div>'
+      + '<p class="note">※ 価格はサンプルです。カート/決済は本番環境で接続予定（デザイン確認用）</p>'
+      + '</article>';
+    setView(html, { sub: true, tab: 'products' });
+  }
+
   function viewProducts() {
     var grid = DB.products.map(function (p, i) {
-      return '<a class="pcard" href="#/products"><div class="pcard__img cover ' + coverOf(i) + '"><span class="cover__motif">' + MOTIF.bottle + '</span></div>'
+      return '<a class="pcard" href="#/products/' + p.id + '"><div class="pcard__img cover ' + coverOf(i) + '"><span class="cover__motif">' + MOTIF.bottle + '</span></div>'
         + '<div class="pcard__cat">' + esc(p.tag) + '</div>'
         + '<div class="pcard__name">' + esc(p.name) + '</div>'
         + '<div class="pcard__sum">' + esc(p.summary) + '</div>'
@@ -449,7 +525,7 @@
     if (head === 'diagnosis') return p[1] ? startQuiz(p[1]) : viewDiagList();
     if (head === 'r') return viewResult(p.slice(1).join('/'));
     if (head === 'menu') return viewMenu(p[1]);
-    if (head === 'products') return viewProducts();
+    if (head === 'products') return p[1] ? viewProduct(p[1]) : viewProducts();
     if (head === 'news') return viewNews();
     if (head === 'tips') return p[1] ? viewColumn(p[1]) : viewTips();
     return viewHome();
