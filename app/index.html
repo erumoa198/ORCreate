@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>Navi Beauty｜美容診断アプリ</title>
+  <meta name="description" content="株式会社Naviの美容診断アプリ。眉・お肌の悩みを診断し、最適なアートメイク・エステ・アイテムをご提案します。">
+  <meta name="theme-color" content="#FAFAF8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Navi Beauty">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body data-subpage="0">
+  <div class="app">
+    <header class="app-header">
+      <button class="app-header__back" id="backBtn" aria-label="戻る">‹</button>
+      <a class="app-header__logo" href="#/">NAVI <span>Beauty</span></a>
+    </header>
+
+    <main class="app-main" id="main"><!-- 動的描画 --></main>
+
+    <nav class="tabbar">
+      <a class="tabbar__item" data-tab="home" href="#/"><span class="ic">🏠</span>ホーム</a>
+      <a class="tabbar__item" data-tab="diagnosis" href="#/diagnosis"><span class="ic">🔮</span>診断</a>
+      <a class="tabbar__item" data-tab="menu" href="#/menu"><span class="ic">💎</span>メニュー</a>
+      <a class="tabbar__item" data-tab="products" href="#/products"><span class="ic">🧴</span>商品</a>
+      <a class="tabbar__item" data-tab="tips" href="#/tips"><span class="ic">📖</span>豆知識</a>
+    </nav>
+  </div>
+
+  <script src="js/vendor/qrcode.js"></script>
+  <script src="js/qr.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
