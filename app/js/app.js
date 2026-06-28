@@ -59,6 +59,12 @@
   var quizState = null;
 
   function loadData() {
+    // 単一HTML版：埋め込みデータがあればfetch不要（file://でも動作）
+    if (window.NAVI_DATA) {
+      var D = window.NAVI_DATA;
+      DB.diagnoses = D.diagnoses; DB.menus = D.menus; DB.products = D.products; DB.tips = D.tips; DB.news = D.news;
+      return Promise.resolve();
+    }
     return Promise.all(['diagnoses', 'menus', 'products', 'tips', 'news'].map(function (n) {
       return fetch('data/' + n + '.json').then(function (r) { return r.json(); });
     })).then(function (r) {
