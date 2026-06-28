@@ -1,0 +1,32 @@
+{
+  "name": "Navi Beauty｜美容診断アプリ",
+  "short_name": "Navi Beauty",
+  "description": "株式会社Naviの美容診断アプリ。眉・お肌の悩みを診断し、最適な施術・アイテムを提案します。",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F3EFE8",
+  "theme_color": "#F3EFE8",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
