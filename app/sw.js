@@ -1,9 +1,10 @@
 /* Navi Beauty App — Service Worker（簡易オフラインキャッシュ） */
-var CACHE = 'navi-beauty-v1';
+var CACHE = 'navi-beauty-v2';
 var ASSETS = [
   './',
   './index.html',
   './css/app.css',
+  './css/fonts.css',
   './js/app.js',
   './js/qr.js',
   './js/vendor/qrcode.js',
@@ -11,6 +12,16 @@ var ASSETS = [
   './data/menus.json',
   './data/products.json',
   './data/tips.json',
+  './data/news.json',
+  './icons/grain.png',
+  './fonts/cormorant-400.woff2',
+  './fonts/cormorant-600.woff2',
+  './fonts/inter-400.woff2',
+  './fonts/inter-500.woff2',
+  './fonts/inter-600.woff2',
+  './fonts/shippori-600.woff2',
+  './fonts/zenkaku-400.woff2',
+  './fonts/zenkaku-700.woff2',
   './manifest.webmanifest'
 ];
 

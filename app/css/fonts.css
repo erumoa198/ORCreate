@@ -1,0 +1,49 @@
+/* 自己ホストフォント（オフライン対応・本番でも外部依存なし） */
+
+/* Cormorant Garamond — 英字ディスプレイ（エディトリアル見出し・数字） */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/cormorant-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/cormorant-600.woff2') format('woff2');
+}
+
+/* Inter — ラベル/英字UI */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/inter-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal; font-weight: 500; font-display: swap;
+  src: url('../fonts/inter-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/inter-600.woff2') format('woff2');
+}
+
+/* Shippori Mincho — 和文見出し（明朝） */
+@font-face {
+  font-family: 'Shippori Mincho';
+  font-style: normal; font-weight: 600; font-display: swap;
+  src: url('../fonts/shippori-600.woff2') format('woff2');
+}
+
+/* Zen Kaku Gothic New — 和文本文 */
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url('../fonts/zenkaku-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url('../fonts/zenkaku-700.woff2') format('woff2');
+}
