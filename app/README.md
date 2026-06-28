@@ -17,10 +17,18 @@
 
 ---
 
-## 2. ローカルでの確認方法
+## 2. 確認方法（2通り）
 
-`file://` で直接開くと `fetch` でJSONが読めないため、簡易サーバー経由で開いてください。
+### A. 単一HTMLで確認（サーバー不要・実機向け）
+`app/navi-beauty-standalone.html` を **ダブルクリック**するだけ。CSS/JS/データ/英字フォントを1ファイルに同梱しているため `file://` 直開きで動きます。スマホへAirDrop/メール等で送れば実機確認も可能（和文は端末フォント＝iPhone/Macはヒラギノで表示）。
 
+修正後の再生成：
+```bash
+python3 app/build-standalone.py   # → app/navi-beauty-standalone.html を更新
+```
+
+### B. ローカルサーバーで確認（本番に近い完全版）
+通常版は `fetch` でJSONを読むため、簡易サーバー経由で開きます（フォント自己ホスト・PWAも含む）。
 ```bash
 cd app
 python3 -m http.server 8123
